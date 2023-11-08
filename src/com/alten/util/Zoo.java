@@ -59,8 +59,7 @@ public class Zoo {
         Animale animaleConAperturaAlareMaggiore = null;
 
         for (Animale animale : animali) {
-            if (animale instanceof Volatile) { //verifico se animale deriva da Volatile
-                Volatile vol = (Volatile) animale;
+            if (animale instanceof Volatile vol) { //verifico se animale deriva da Volatile
                 if (animaleConAperturaAlareMaggiore == null || vol.getAperturaAlare() >
                         ((Volatile) animaleConAperturaAlareMaggiore).getAperturaAlare()) ;
                 {
@@ -79,8 +78,7 @@ public class Zoo {
         Animale animaleConCodaPiuLunga = null;
 
         for (Animale animale : animali) {
-            if (animale instanceof Caudato) {
-                Caudato caudato = (Caudato) animale;
+            if (animale instanceof Caudato caudato) {
                 if (animaleConCodaPiuLunga == null || caudato.getLunghezzaCoda() > ((Caudato) animaleConCodaPiuLunga).getLunghezzaCoda()) {
                     animaleConCodaPiuLunga = animale;
                 }
