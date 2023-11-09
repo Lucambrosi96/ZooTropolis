@@ -2,92 +2,92 @@ package com.alten.util;
 
 import com.alten.exception.CaudatiNonTrovatiException;
 import com.alten.exception.VolatiliNonTrovatiException;
-import com.alten.model.Animale;
-import com.alten.model.Caudato;
-import com.alten.model.Volatile;
+import com.alten.model.Animal;
+import com.alten.model.TailedAnimal;
+import com.alten.model.WingedAnimal;
 
 import java.util.List;
 
 public class Zoo {
     //lista generica -> qualsiasi tipo che sia sottotipo di Animale
-    public static Animale trovaPiuAlto(List<? extends Animale> animali) {
-        Animale piuAlto = animali.get(0);
+    public static Animal findHighestAnimal(List<? extends Animal> animals) {
+        Animal highest = animals.get(0);
 
-        for (Animale animale : animali) {
-            if (animale.getAltezza() > piuAlto.getAltezza()) {
-                piuAlto = animale;
+        for (Animal animal : animals) {
+            if (animal.getHeight() > highest.getHeight()) {
+                highest = animal;
             }
         }
-        return piuAlto;
+        return highest;
     }
 
 
-    public static Animale trovaPiuBasso(List<? extends Animale> animali) {
-        Animale piuBasso = animali.get(0);
+    public static Animal findLowestAnimal(List<? extends Animal> animals) {
+        Animal lowest = animals.get(0);
 
-        for (Animale animale : animali) {
-            if (animale.getAltezza() < piuBasso.getAltezza()) {
-                piuBasso = animale;
+        for (Animal animal : animals) {
+            if (animal.getHeight() < lowest.getHeight()) {
+                lowest = animal;
             }
         }
-        return piuBasso;
+        return lowest;
     }
 
-    public static Animale trovaPiuPesante(List<? extends Animale> animali) {
-        Animale piuPesante = animali.get(0);
+    public static Animal findHeaviestAnimal(List<? extends Animal> animals) {
+        Animal heaviest = animals.get(0);
 
-        for (Animale animale : animali) {
-            if (animale.getPeso() > piuPesante.getPeso()) {
-                piuPesante = animale;
+        for (Animal animal : animals) {
+            if (animal.getWeight() > heaviest.getWeight()) {
+                heaviest = animal;
             }
         }
-        return piuPesante;
+        return heaviest;
     }
 
-    public static Animale trovaPiuLeggero(List<? extends Animale> animali) {
-        Animale piuLeggero = animali.get(0);
+    public static Animal findLightestAnimal(List<? extends Animal> animals) {
+        Animal lightest = animals.get(0);
 
-        for (Animale animale : animali) {
-            if (animale.getPeso() < piuLeggero.getPeso()) {
-                piuLeggero = animale;
+        for (Animal animal : animals) {
+            if (animal.getWeight() < lightest.getWeight()) {
+                lightest = animal;
             }
         }
-        return piuLeggero;
+        return lightest;
     }
 
-    public static Animale trovaAnimaleConAperturaAlareMaggiore(List<Animale> animali) throws VolatiliNonTrovatiException {
-        Animale animaleConAperturaAlareMaggiore = null;
+    public static Animal findLargestWingspanAnimal(List<Animal> animals) throws VolatiliNonTrovatiException {
+        Animal largestWingspan = null;
 
-        for (Animale animale : animali) {
-            if (animale instanceof Volatile vol) { //verifico se animale deriva da Volatile
-                if (animaleConAperturaAlareMaggiore == null || vol.getAperturaAlare() >
-                        ((Volatile) animaleConAperturaAlareMaggiore).getAperturaAlare()) ;
+        for (Animal animal : animals) {
+            if (animal instanceof WingedAnimal wingedAnimal) { //verifico se animale deriva da Volatile
+                if (largestWingspan == null || wingedAnimal.getWingspan() >
+                        ((WingedAnimal) largestWingspan).getWingspan()) ;
                 {
-                    animaleConAperturaAlareMaggiore = animale;
+                    largestWingspan = animal;
                 }
             }
         }
-        if (animaleConAperturaAlareMaggiore != null) {
-            return animaleConAperturaAlareMaggiore;
+        if (largestWingspan != null) {
+            return largestWingspan;
         } else {
-            throw new VolatiliNonTrovatiException("Non ci sono volatili nello zoo");
+            throw new VolatiliNonTrovatiException("There are no animals with wings in the zoo");
         }
     }
 
-    public static Animale trovaAnimaleConCodaPiuLunga(List<Animale> animali) throws CaudatiNonTrovatiException {
-        Animale animaleConCodaPiuLunga = null;
+    public static Animal findLongestTailAnimal(List<Animal> animali) throws CaudatiNonTrovatiException {
+        Animal longestTail = null;
 
-        for (Animale animale : animali) {
-            if (animale instanceof Caudato caudato) {
-                if (animaleConCodaPiuLunga == null || caudato.getLunghezzaCoda() > ((Caudato) animaleConCodaPiuLunga).getLunghezzaCoda()) {
-                    animaleConCodaPiuLunga = animale;
+        for (Animal animal : animali) {
+            if (animal instanceof TailedAnimal tailedAnimal) {
+                if (longestTail == null || tailedAnimal.getTailLenght() > ((TailedAnimal) longestTail).getTailLenght()) {
+                    longestTail = animal;
                 }
             }
         }
-        if (animaleConCodaPiuLunga != null) {
-            return animaleConCodaPiuLunga;
+        if (longestTail != null) {
+            return longestTail;
         } else {
-            throw new CaudatiNonTrovatiException("Non ci sono animali con la coda nello zoo");
+            throw new CaudatiNonTrovatiException("There are no animals with tails in the zoo");
         }
     }
 }

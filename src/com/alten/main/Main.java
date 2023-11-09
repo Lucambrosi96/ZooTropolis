@@ -5,6 +5,7 @@ import com.alten.exception.VolatiliNonTrovatiException;
 import com.alten.model.*;
 import com.alten.util.Zoo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,64 +13,66 @@ public class Main {
 
     public static void main(String[] args) throws VolatiliNonTrovatiException, CaudatiNonTrovatiException {
 
-        List<Leone> leoni = new ArrayList<>();
-        List<Tigre> tigri = new ArrayList<>();
-        List<Aquila> aquile = new ArrayList<>();
-        List<Animale> animali = new ArrayList<>();
-
-        leoni.add(new Leone("Simba", "Zebra", 2, "20-03-2023", 1.50f, 100f, 0.50f));
-        leoni.add(new Leone("Mufasa", "Bufalo", 8, "05-11-2019", 2.50f, 200f, 1.00f));
-        leoni.add(new Leone("Nala", "Zebra", 4, "09-01-2021", 1.70f, 155.5f, 0.75f));
-
-        tigri.add(new Tigre("Diego", "Gazzella", 1, "20-03-2023", 1.40f, 50f, 0.20f));
-        tigri.add(new Tigre("Red", "Antilope", 5, "20-03-2023", 1.80f, 150f, 0.50f));
-        tigri.add(new Tigre("Black", "Gazzella", 7, "20-03-2023", 2.00f, 270f, 0.80f));
+        List<Lion> lions = new ArrayList<>();
+        List<Tiger> tigers = new ArrayList<>();
+        List<Eagle> eagles = new ArrayList<>();
+        List<Animal> animals = new ArrayList<>();
 
 
-        aquile.add(new Aquila("Olympia", "Coniglio", 3, "20-03-2023", 0.75f, 3f, 1.80f));
-        aquile.add(new Aquila("Sky", "Coniglio", 3, "20-03-2023", 0.50f, 4f, 1.60f));
-        aquile.add(new Aquila("Blue", "Trota", 4, "20-03-2023", 0.60f, 2f, 2.15f));
 
-        animali.addAll(leoni);
-        animali.addAll(tigri);
-        animali.addAll(aquile);
+        lions.add(new Lion("Simba", "Zebra", 2, LocalDate.of(2023,10,9), 1.50f, 100f, 0.50f));
+        lions.add(new Lion("Mufasa", "Bufalo", 8, LocalDate.of(2019,10,10), 2.50f, 200f, 1.00f));
+        lions.add(new Lion("Nala", "Zebra", 4, LocalDate.of(2018,10,7), 1.70f, 155.5f, 0.75f));
 
-
-        Animale leonePiuAlto = Zoo.trovaPiuAlto(leoni);
-        Animale leonePiuBasso = Zoo.trovaPiuBasso(leoni);
-        Animale leonePiuPesante = Zoo.trovaPiuPesante(leoni);
-        Animale leonePiuLeggero = Zoo.trovaPiuLeggero(leoni);
-
-        Animale tigrePiuAlta = Zoo.trovaPiuAlto(tigri);
-        Animale tigrePiuBassa = Zoo.trovaPiuBasso(tigri);
-        Animale tigrePiuPesante = Zoo.trovaPiuPesante(tigri);
-        Animale tigrePiuLeggera = Zoo.trovaPiuLeggero(tigri);
-
-        Animale aquilaPiuAlta = Zoo.trovaPiuAlto(aquile);
-        Animale aquilaPiuBassa = Zoo.trovaPiuBasso(aquile);
-        Animale aquilaPiuPesante = Zoo.trovaPiuPesante(aquile);
-        Animale aquilaPiuLeggera = Zoo.trovaPiuLeggero(aquile);
-
-        Animale aperturaAlareMaggiore = Zoo.trovaAnimaleConAperturaAlareMaggiore(animali);
-
-        Animale codaPiuLunga = Zoo.trovaAnimaleConCodaPiuLunga(animali);
+        tigers.add(new Tiger("Diego", "Gazzella", 1, LocalDate.of(2023,10,10), 1.40f, 50f, 0.20f));
+        tigers.add(new Tiger("Red", "Antilope", 5, LocalDate.of(2019,10,6), 1.80f, 150f, 0.50f));
+        tigers.add(new Tiger("Black", "Gazzella", 7, LocalDate.of(2020,10,10), 2.00f, 270f, 0.80f));
 
 
-        System.out.println("Il leone più alto è " + leonePiuAlto.getNome() + ", il leone più basso è "
-                + leonePiuBasso.getNome() + ", il leone più pesante è " + leonePiuPesante.getNome()
-                + ", il leone più leggero è " + leonePiuLeggero.getNome());
+        eagles.add(new Eagle("Olympia", "Coniglio", 3, LocalDate.of(2019,10,5), 0.75f, 3f, 1.80f));
+        eagles.add(new Eagle("Sky", "Coniglio", 3, LocalDate.of(2018,10,3), 0.50f, 4f, 1.60f));
+        eagles.add(new Eagle("Blue", "Trota", 4, LocalDate.of(2019,10,10), 0.60f, 2f, 2.15f));
 
-        System.out.println("La tigre più alta è " + tigrePiuAlta.getNome() + ", la tigre più bassa è "
-                + tigrePiuBassa.getNome() + ", la tigre più pesante è " + tigrePiuPesante.getNome()
-                + ", la tigre più leggera è " + tigrePiuLeggera.getNome());
+        animals.addAll(lions);
+        animals.addAll(tigers);
+        animals.addAll(eagles);
 
-        System.out.println("L'aquila più alta è " + aquilaPiuAlta.getNome() + ", l'aquila più bassa è "
-                + aquilaPiuBassa.getNome() + ", l'aquila più pesante è " + aquilaPiuPesante.getNome()
-                + ", l'aquila più leggera è " + aquilaPiuLeggera.getNome());
 
-        System.out.println("L'animale con l'apertura alare maggiore è " + aperturaAlareMaggiore.getNome());
+        Animal highestLion = Zoo.findHighestAnimal(lions);
+        Animal lowestLion = Zoo.findLowestAnimal(lions);
+        Animal heaviestLion = Zoo.findHeaviestAnimal(lions);
+        Animal lighestLion = Zoo.findLightestAnimal(lions);
 
-        System.out.println("L'animale con la coda più lunga è " + codaPiuLunga.getNome());
+        Animal highestTiger = Zoo.findHighestAnimal(tigers);
+        Animal lowestTiger = Zoo.findLowestAnimal(tigers);
+        Animal heaviestTiger = Zoo.findHeaviestAnimal(tigers);
+        Animal lighestTiger = Zoo.findLightestAnimal(tigers);
+
+        Animal highestEagle = Zoo.findHighestAnimal(eagles);
+        Animal lowestEagle = Zoo.findLowestAnimal(eagles);
+        Animal heaviestEagle = Zoo.findHeaviestAnimal(eagles);
+        Animal lighestEagle = Zoo.findLightestAnimal(eagles);
+
+        Animal largestWingspan = Zoo.findLargestWingspanAnimal(animals);
+
+        Animal longestTail = Zoo.findLongestTailAnimal(animals);
+
+
+        System.out.println("Il leone più alto è " + highestLion.getName() + ", il leone più basso è "
+                + lowestLion.getName() + ", il leone più pesante è " + heaviestLion.getName()
+                + ", il leone più leggero è " + lighestLion.getName());
+
+        System.out.println("La tigre più alta è " + highestTiger.getName() + ", la tigre più bassa è "
+                + lowestTiger.getName() + ", la tigre più pesante è " + heaviestTiger.getName()
+                + ", la tigre più leggera è " + lighestTiger.getName());
+
+        System.out.println("L'aquila più alta è " + highestEagle.getName() + ", l'aquila più bassa è "
+                + lowestEagle.getName() + ", l'aquila più pesante è " + heaviestEagle.getName()
+                + ", l'aquila più leggera è " + lighestEagle.getName());
+
+        System.out.println("L'animale con l'apertura alare maggiore è " + largestWingspan.getName());
+
+        System.out.println("L'animale con la coda più lunga è " + longestTail.getName());
 
     }
 }
