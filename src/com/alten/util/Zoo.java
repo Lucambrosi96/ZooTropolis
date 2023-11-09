@@ -1,68 +1,112 @@
 package com.alten.util;
 
-import com.alten.exception.CaudatiNonTrovatiException;
-import com.alten.exception.VolatiliNonTrovatiException;
+import com.alten.exception.EmptySpiecesException;
+import com.alten.exception.TailedAnimalsNotFoundException;
+import com.alten.exception.WingedAnimalsNotFoundException;
 import com.alten.model.Animal;
 import com.alten.model.TailedAnimal;
 import com.alten.model.WingedAnimal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Zoo {
-    //lista generica -> qualsiasi tipo che sia sottotipo di Animale
-    public static Animal findHighestAnimal(List<? extends Animal> animals) {
-        Animal highest = animals.get(0);
 
-        for (Animal animal : animals) {
-            if (animal.getHeight() > highest.getHeight()) {
-                highest = animal;
-            }
-        }
-        return highest;
+    private List<Animal> animals;
+
+    public Zoo() {
+        this.animals = new ArrayList<>();
     }
 
-
-    public static Animal findLowestAnimal(List<? extends Animal> animals) {
-        Animal lowest = animals.get(0);
-
-        for (Animal animal : animals) {
-            if (animal.getHeight() < lowest.getHeight()) {
-                lowest = animal;
-            }
-        }
-        return lowest;
+    public void addAnimal(Animal animal) {
+        animals.add(animal);
     }
 
-    public static Animal findHeaviestAnimal(List<? extends Animal> animals) {
-        Animal heaviest = animals.get(0);
-
+    public List<Animal> findSpecies(List<Animal> animals, Class<? extends Animal> animalType) {
+        List<Animal> speciesList = new ArrayList<>();
         for (Animal animal : animals) {
-            if (animal.getWeight() > heaviest.getWeight()) {
-                heaviest = animal;
+            if (animalType.isInstance(animal)) {
+                speciesList.add(animal);
             }
         }
-        return heaviest;
+        return speciesList;
     }
 
-    public static Animal findLightestAnimal(List<? extends Animal> animals) {
-        Animal lightest = animals.get(0);
+    public Animal findHighestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
+        List<Animal> selectedSpecies = findSpecies(animals, species);
 
-        for (Animal animal : animals) {
-            if (animal.getWeight() < lightest.getWeight()) {
-                lightest = animal;
+        if (!selectedSpecies.isEmpty()) {
+            Animal highest = selectedSpecies.get(0);
+
+            for (Animal animal : selectedSpecies) {
+                if (animal.getHeight() > highest.getHeight()) {
+                    highest = animal;
+                }
             }
+            return highest;
+        } else {
+            throw new EmptySpiecesException("There are no animals for the selected spieces");
         }
-        return lightest;
     }
 
-    public static Animal findLargestWingspanAnimal(List<Animal> animals) throws VolatiliNonTrovatiException {
+    public Animal findLowestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
+        List<Animal> selectedSpecies = findSpecies(animals, species);
+
+        if (!selectedSpecies.isEmpty()) {
+            Animal lowest = selectedSpecies.get(0);
+
+            for (Animal animal : selectedSpecies) {
+                if (animal.getHeight() < lowest.getHeight()) {
+                    lowest = animal;
+                }
+            }
+            return lowest;
+        } else {
+            throw new EmptySpiecesException("There are no animals for the selected spieces");
+        }
+    }
+
+    public Animal findHeaviestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
+        List<Animal> selectedSpecies = findSpecies(animals, species);
+
+        if (!selectedSpecies.isEmpty()) {
+            Animal heaviest = selectedSpecies.get(0);
+
+            for (Animal animal : selectedSpecies) {
+                if (animal.getWeight() > heaviest.getWeight()) {
+                    heaviest = animal;
+                }
+            }
+            return heaviest;
+        } else {
+            throw new EmptySpiecesException("There are no animals for the selected spieces");
+        }
+    }
+
+    public Animal findLightestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
+        List<Animal> selectedSpecies = findSpecies(animals, species);
+
+        if (!selectedSpecies.isEmpty()) {
+            Animal lightest = selectedSpecies.get(0);
+
+            for (Animal animal : selectedSpecies) {
+                if (animal.getWeight() < lightest.getWeight()) {
+                    lightest = animal;
+                }
+            }
+            return lightest;
+        } else {
+            throw new EmptySpiecesException("There are no animals for the selected spieces");
+        }
+    }
+
+    public Animal findLargestWingspanAnimal() throws WingedAnimalsNotFoundException {
         Animal largestWingspan = null;
 
         for (Animal animal : animals) {
             if (animal instanceof WingedAnimal wingedAnimal) { //verifico se animale deriva da Volatile
                 if (largestWingspan == null || wingedAnimal.getWingspan() >
-                        ((WingedAnimal) largestWingspan).getWingspan()) ;
-                {
+                        ((WingedAnimal) largestWingspan).getWingspan()) {
                     largestWingspan = animal;
                 }
             }
@@ -70,14 +114,14 @@ public class Zoo {
         if (largestWingspan != null) {
             return largestWingspan;
         } else {
-            throw new VolatiliNonTrovatiException("There are no animals with wings in the zoo");
+            throw new WingedAnimalsNotFoundException("There are no animals with wings in the zoo");
         }
     }
 
-    public static Animal findLongestTailAnimal(List<Animal> animali) throws CaudatiNonTrovatiException {
+    public Animal findLongestTailAnimal() throws TailedAnimalsNotFoundException {
         Animal longestTail = null;
 
-        for (Animal animal : animali) {
+        for (Animal animal : animals) {
             if (animal instanceof TailedAnimal tailedAnimal) {
                 if (longestTail == null || tailedAnimal.getTailLenght() > ((TailedAnimal) longestTail).getTailLenght()) {
                     longestTail = animal;
@@ -87,7 +131,7 @@ public class Zoo {
         if (longestTail != null) {
             return longestTail;
         } else {
-            throw new CaudatiNonTrovatiException("There are no animals with tails in the zoo");
+            throw new TailedAnimalsNotFoundException("There are no animals with tails in the zoo");
         }
     }
 }
