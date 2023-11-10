@@ -3,10 +3,9 @@ package com.alten.util;
 import com.alten.exception.EmptySpiecesException;
 import com.alten.exception.TailedAnimalsNotFoundException;
 import com.alten.exception.WingedAnimalsNotFoundException;
-import com.alten.model.Animal;
-import com.alten.model.TailedAnimal;
-import com.alten.model.WingedAnimal;
+import com.alten.model.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,20 @@ public class Zoo {
 
     public void addAnimal(Animal animal) {
         animals.add(animal);
+    }
+
+    public void populateZoo(){
+        addAnimal(new Lion("Simba", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f));
+        addAnimal(new Lion("Mufasa", "Bufalo", 8, LocalDate.of(2019, 10, 10), 2.50f, 200f, 1.00f));
+        addAnimal(new Lion("Nala", "Zebra", 4, LocalDate.of(2018, 10, 7), 1.70f, 155.5f, 0.75f));
+
+        addAnimal(new Tiger("Diego", "Gazzella", 1, LocalDate.of(2023, 10, 10), 1.40f, 50f, 0.20f));
+        addAnimal(new Tiger("Red", "Antilope", 5, LocalDate.of(2019, 10, 6), 1.80f, 150f, 0.50f));
+        addAnimal(new Tiger("Black", "Gazzella", 7, LocalDate.of(2020, 10, 10), 2.00f, 270f, 0.80f));
+
+        addAnimal(new Eagle("Olympia", "Coniglio", 3, LocalDate.of(2019, 10, 5), 0.75f, 3f, 1.80f));
+        addAnimal(new Eagle("Sky", "Coniglio", 3, LocalDate.of(2018, 10, 3), 0.50f, 4f, 1.60f));
+        addAnimal(new Eagle("Blue", "Trota", 4, LocalDate.of(2019, 10, 10), 0.60f, 2f, 2.15f));
     }
 
     public List<Animal> findSpecies(List<Animal> animals, Class<? extends Animal> animalType) {
@@ -45,7 +58,7 @@ public class Zoo {
             }
             return highest;
         } else {
-            throw new EmptySpiecesException("There are no animals for the selected spieces");
+            throw new EmptySpiecesException("There are no animals for the selected species");
         }
     }
 
@@ -62,7 +75,7 @@ public class Zoo {
             }
             return lowest;
         } else {
-            throw new EmptySpiecesException("There are no animals for the selected spieces");
+            throw new EmptySpiecesException("There are no animals for the selected species");
         }
     }
 
@@ -79,7 +92,7 @@ public class Zoo {
             }
             return heaviest;
         } else {
-            throw new EmptySpiecesException("There are no animals for the selected spieces");
+            throw new EmptySpiecesException("There are no animals for the selected species");
         }
     }
 
@@ -96,7 +109,7 @@ public class Zoo {
             }
             return lightest;
         } else {
-            throw new EmptySpiecesException("There are no animals for the selected spieces");
+            throw new EmptySpiecesException("There are no animals for the selected species");
         }
     }
 
@@ -104,7 +117,7 @@ public class Zoo {
         Animal largestWingspan = null;
 
         for (Animal animal : animals) {
-            if (animal instanceof WingedAnimal wingedAnimal) { //verifico se animale deriva da Volatile
+            if (animal instanceof WingedAnimal wingedAnimal) {
                 if (largestWingspan == null || wingedAnimal.getWingspan() >
                         ((WingedAnimal) largestWingspan).getWingspan()) {
                     largestWingspan = animal;
@@ -135,16 +148,3 @@ public class Zoo {
         }
     }
 }
-
-
-
-/*public static Volatile trovaAperturaAlareMaggiore(List<Volatile> volatili) {
-        Volatile maxAperturaAlare = volatili.get(0);
-
-        for (Volatile vol : volatili) {
-            if (vol.getAperturaAlare() > maxAperturaAlare.getAperturaAlare()) {
-                maxAperturaAlare = vol;
-            }
-        }
-        return maxAperturaAlare;
-    }*/

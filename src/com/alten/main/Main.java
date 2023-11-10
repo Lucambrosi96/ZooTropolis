@@ -16,18 +16,7 @@ public class Main {
     public static void main(String[] args) throws WingedAnimalsNotFoundException, TailedAnimalsNotFoundException, EmptySpiecesException {
 
         Zoo zoo = new Zoo();
-
-        zoo.addAnimal(new Lion("Simba", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f));
-        zoo.addAnimal(new Lion("Mufasa", "Bufalo", 8, LocalDate.of(2019, 10, 10), 2.50f, 200f, 1.00f));
-        zoo.addAnimal(new Lion("Nala", "Zebra", 4, LocalDate.of(2018, 10, 7), 1.70f, 155.5f, 0.75f));
-
-        zoo.addAnimal(new Tiger("Diego", "Gazzella", 1, LocalDate.of(2023, 10, 10), 1.40f, 50f, 0.20f));
-        zoo.addAnimal(new Tiger("Red", "Antilope", 5, LocalDate.of(2019, 10, 6), 1.80f, 150f, 0.50f));
-        zoo.addAnimal(new Tiger("Black", "Gazzella", 7, LocalDate.of(2020, 10, 10), 2.00f, 270f, 0.80f));
-
-        zoo.addAnimal(new Eagle("Olympia", "Coniglio", 3, LocalDate.of(2019, 10, 5), 0.75f, 3f, 1.80f));
-        zoo.addAnimal(new Eagle("Sky", "Coniglio", 3, LocalDate.of(2018, 10, 3), 0.50f, 4f, 1.60f));
-        zoo.addAnimal(new Eagle("Blue", "Trota", 4, LocalDate.of(2019, 10, 10), 0.60f, 2f, 2.15f));
+        zoo.populateZoo();
 
         Animal highestLion = zoo.findHighestAnimal(Lion.class);
         Animal lowestLion = zoo.findLowestAnimal(Lion.class);
