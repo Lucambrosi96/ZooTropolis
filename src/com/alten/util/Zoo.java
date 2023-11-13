@@ -1,13 +1,15 @@
 package com.alten.util;
 
-import com.alten.exception.EmptySpiecesException;
+import com.alten.exception.EmptySpeciesException;
 import com.alten.exception.TailedAnimalsNotFoundException;
 import com.alten.exception.WingedAnimalsNotFoundException;
 import com.alten.model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Zoo {
 
@@ -21,7 +23,7 @@ public class Zoo {
         animals.add(animal);
     }
 
-    public void populateZoo(){
+    public void populateZoo() {
         addAnimal(new Lion("Simba", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f));
         addAnimal(new Lion("Mufasa", "Bufalo", 8, LocalDate.of(2019, 10, 10), 2.50f, 200f, 1.00f));
         addAnimal(new Lion("Nala", "Zebra", 4, LocalDate.of(2018, 10, 7), 1.70f, 155.5f, 0.75f));
@@ -35,116 +37,50 @@ public class Zoo {
         addAnimal(new Eagle("Blue", "Trota", 4, LocalDate.of(2019, 10, 10), 0.60f, 2f, 2.15f));
     }
 
-    public List<Animal> findSpecies(List<Animal> animals, Class<? extends Animal> animalType) {
-        List<Animal> speciesList = new ArrayList<>();
-        for (Animal animal : animals) {
-            if (animalType.isInstance(animal)) {
-                speciesList.add(animal);
-            }
-        }
-        return speciesList;
+
+    private List<Animal> findAllAnimalsBySpecies(List<Animal> animals, Class<? extends Animal> animalType) {
+        return animals.stream().filter(animalType::isInstance).collect(Collectors.toList());
     }
 
-    public Animal findHighestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
-        List<Animal> selectedSpecies = findSpecies(animals, species);
+    public Animal findHighestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
+        List<Animal> matchingAnimals = findAllAnimalsBySpecies(animals, species);
 
-        if (!selectedSpecies.isEmpty()) {
-            Animal highest = selectedSpecies.get(0);
-
-            for (Animal animal : selectedSpecies) {
-                if (animal.getHeight() > highest.getHeight()) {
-                    highest = animal;
-                }
-            }
-            return highest;
-        } else {
-            throw new EmptySpiecesException("There are no animals for the selected species");
-        }
+        return matchingAnimals.stream().max(Comparator.comparing(Animal::getHeight))
+                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
     }
 
-    public Animal findLowestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
-        List<Animal> selectedSpecies = findSpecies(animals, species);
+    public Animal findShortestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
+        List<Animal> matchingAnimals = findAllAnimalsBySpecies(animals, species);
 
-        if (!selectedSpecies.isEmpty()) {
-            Animal lowest = selectedSpecies.get(0);
-
-            for (Animal animal : selectedSpecies) {
-                if (animal.getHeight() < lowest.getHeight()) {
-                    lowest = animal;
-                }
-            }
-            return lowest;
-        } else {
-            throw new EmptySpiecesException("There are no animals for the selected species");
-        }
+        return matchingAnimals.stream().min(Comparator.comparing(Animal::getHeight))
+                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
     }
 
-    public Animal findHeaviestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
-        List<Animal> selectedSpecies = findSpecies(animals, species);
+    public Animal findHeaviestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
+        List<Animal> matchingAnimals = findAllAnimalsBySpecies(animals, species);
 
-        if (!selectedSpecies.isEmpty()) {
-            Animal heaviest = selectedSpecies.get(0);
-
-            for (Animal animal : selectedSpecies) {
-                if (animal.getWeight() > heaviest.getWeight()) {
-                    heaviest = animal;
-                }
-            }
-            return heaviest;
-        } else {
-            throw new EmptySpiecesException("There are no animals for the selected species");
-        }
+        return matchingAnimals.stream().max(Comparator.comparing(Animal::getWeight))
+                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
     }
 
-    public Animal findLightestAnimal(Class<? extends Animal> species) throws EmptySpiecesException {
-        List<Animal> selectedSpecies = findSpecies(animals, species);
+    public Animal findLightestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
+        List<Animal> matchingAnimals = findAllAnimalsBySpecies(animals, species);
 
-        if (!selectedSpecies.isEmpty()) {
-            Animal lightest = selectedSpecies.get(0);
-
-            for (Animal animal : selectedSpecies) {
-                if (animal.getWeight() < lightest.getWeight()) {
-                    lightest = animal;
-                }
-            }
-            return lightest;
-        } else {
-            throw new EmptySpiecesException("There are no animals for the selected species");
-        }
+        return matchingAnimals.stream().min(Comparator.comparing(Animal::getWeight))
+                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
     }
 
     public Animal findLargestWingspanAnimal() throws WingedAnimalsNotFoundException {
-        Animal largestWingspan = null;
-
-        for (Animal animal : animals) {
-            if (animal instanceof WingedAnimal wingedAnimal) {
-                if (largestWingspan == null || wingedAnimal.getWingspan() >
-                        ((WingedAnimal) largestWingspan).getWingspan()) {
-                    largestWingspan = animal;
-                }
-            }
-        }
-        if (largestWingspan != null) {
-            return largestWingspan;
-        } else {
-            throw new WingedAnimalsNotFoundException("There are no animals with wings in the zoo");
-        }
+        return animals.stream().filter(animal -> animal instanceof WingedAnimal)
+                .map(animal -> (WingedAnimal) animal)
+                .max(Comparator.comparing(WingedAnimal::getWingspan))
+                .orElseThrow(() -> new WingedAnimalsNotFoundException("There are no animals with wing in the zoo"));
     }
 
     public Animal findLongestTailAnimal() throws TailedAnimalsNotFoundException {
-        Animal longestTail = null;
-
-        for (Animal animal : animals) {
-            if (animal instanceof TailedAnimal tailedAnimal) {
-                if (longestTail == null || tailedAnimal.getTailLenght() > ((TailedAnimal) longestTail).getTailLenght()) {
-                    longestTail = animal;
-                }
-            }
-        }
-        if (longestTail != null) {
-            return longestTail;
-        } else {
-            throw new TailedAnimalsNotFoundException("There are no animals with tails in the zoo");
-        }
+        return animals.stream().filter(animal -> animal instanceof TailedAnimal)
+                .map(animal -> (TailedAnimal) animal)
+                .max(Comparator.comparing(TailedAnimal::getTailLenght))
+                .orElseThrow(() -> new TailedAnimalsNotFoundException("There are no animals with tail in the zoo"));
     }
 }
