@@ -42,11 +42,11 @@ public class Main {
                     + ", the lighest lion is " + lighestLion.getName());
 
             System.out.println("The highest tiger is " + highestTiger.getName() + ", the shortest tiger is "
-                    + shortestTiger.getName() + ", the heaviest lion is " + heaviestTiger.getName()
+                    + shortestTiger.getName() + ", the heaviest tiger is " + heaviestTiger.getName()
                     + ", the lighest tiger is " + lighestTiger.getName());
 
             System.out.println("The highest eagle is " + highestEagle.getName() + ", the shortest eagle is "
-                    + shortestEagle.getName() + ", the heaviest lion is " + heaviestEagle.getName()
+                    + shortestEagle.getName() + ", the heaviest eagle is " + heaviestEagle.getName()
                     + ", the lighest eagle is " + lighestEagle.getName());
 
             System.out.println("The animal with the largest wingspan is " + largestWingspan.getName());

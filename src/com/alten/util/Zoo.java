@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Zoo {
 
-    private Map<Class<?extends Animal>, List<Animal>> animalsMap;
+    private final Map<Class<?extends Animal>, List<Animal>> animalsMap;
 
     public Zoo() {
         this.animalsMap = new HashMap<>();
@@ -80,7 +80,7 @@ public class Zoo {
         return animalsMap.values().stream().flatMap(List::stream)
                 .filter(animal -> animal instanceof TailedAnimal)
                 .map(animal -> (TailedAnimal) animal)
-                .max(Comparator.comparing(TailedAnimal::getTailLenght))
+                .max(Comparator.comparing(TailedAnimal::getTailLength))
                 .orElseThrow(() -> new TailedAnimalsNotFoundException("There are no animals with tail in the zoo"));
     }
 }

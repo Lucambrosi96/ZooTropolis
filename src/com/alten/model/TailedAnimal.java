@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 public abstract class TailedAnimal extends Animal {
 
-    private float tailLenght;
+    private float tailLength;
 
-    public TailedAnimal(String name, String favouriteFood, int age, LocalDate arrivalDateAtZoo, float height, float weight, float tailLenght) {
+    public TailedAnimal(String name, String favouriteFood, int age, LocalDate arrivalDateAtZoo, float height, float weight, float tailLength) {
         super(name, favouriteFood, age, arrivalDateAtZoo, height, weight);
-        this.tailLenght = tailLenght;
+        this.tailLength = tailLength;
     }
 
-    public float getTailLenght() {
-        return tailLenght;
+    public float getTailLength() {
+        return tailLength;
     }
 
-    public void setTailLenght(float tailLenght) {
-        this.tailLenght = tailLenght;
+    public void setTailLength(float tailLength) {
+        this.tailLength = tailLength;
     }
 }
