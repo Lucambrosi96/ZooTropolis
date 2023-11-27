@@ -1,8 +1,5 @@
 package com.alten.util;
 
-import com.alten.exception.EmptySpeciesException;
-import com.alten.exception.TailedAnimalsNotFoundException;
-import com.alten.exception.WingedAnimalsNotFoundException;
 import com.alten.model.*;
 
 import java.time.LocalDate;
@@ -10,14 +7,14 @@ import java.util.*;
 
 public class Zoo {
 
-    private final Map<Class<?extends Animal>, List<Animal>> animalsMap;
+    private final Map<Class<? extends Animal>, List<Animal>> animalsMap;
 
     public Zoo() {
         this.animalsMap = new HashMap<>();
     }
 
     public void addAnimal(Animal animal) {
-        Class<?extends Animal> species = animal.getClass();
+        Class<? extends Animal> species = animal.getClass();
         animalsMap.computeIfAbsent(species, k -> new ArrayList<>()).add(animal);
     }
 
@@ -36,51 +33,45 @@ public class Zoo {
     }
 
 
-    private List<Animal> findAllAnimalsBySpecies(Class<? extends Animal> animalType) {
-        return animalsMap.getOrDefault(animalType, Collections.emptyList());
+    private <T extends Animal> List<T> findAllAnimalsBySpecies(Class<T> animalType) {
+        return (List<T>) animalsMap.getOrDefault(animalType, Collections.emptyList());
     }
 
-    public Animal findHighestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
-        List<Animal> matchingAnimals = findAllAnimalsBySpecies(species);
+    public <T extends Animal> T findHighestAnimal(Class<T> species) {
 
-        return matchingAnimals.stream().max(Comparator.comparing(Animal::getHeight))
-                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
+        return findAllAnimalsBySpecies(species).stream().max(Comparator.comparing(Animal::getHeight)).orElse(null);
     }
 
-    public Animal findShortestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
-        List<Animal> matchingAnimals = findAllAnimalsBySpecies(species);
+    public <T extends Animal> T findShortestAnimal(Class<T> species) {
 
-        return matchingAnimals.stream().min(Comparator.comparing(Animal::getHeight))
-                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
+        return findAllAnimalsBySpecies(species).stream().min(Comparator.comparing(Animal::getHeight)).orElse(null);
     }
 
-    public Animal findHeaviestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
-        List<Animal> matchingAnimals = findAllAnimalsBySpecies(species);
+    public <T extends Animal> T findHeaviestAnimal(Class<T> species) {
 
-        return matchingAnimals.stream().max(Comparator.comparing(Animal::getWeight))
-                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
+        return findAllAnimalsBySpecies(species).stream().max(Comparator.comparing(Animal::getWeight))
+                .orElse(null);
     }
 
-    public Animal findLightestAnimal(Class<? extends Animal> species) throws EmptySpeciesException {
-        List<Animal> matchingAnimals = findAllAnimalsBySpecies(species);
+    public <T extends Animal> T findLightestAnimal(Class<T> species) {
 
-        return matchingAnimals.stream().min(Comparator.comparing(Animal::getWeight))
-                .orElseThrow(() -> new EmptySpeciesException("There are no animals for the selected species"));
+        return findAllAnimalsBySpecies(species).stream().min(Comparator.comparing(Animal::getWeight))
+                .orElse(null);
     }
 
-    public Animal findLargestWingspanAnimal() throws WingedAnimalsNotFoundException {
+    public Animal findLargestWingspanAnimal() {
         return animalsMap.values().stream().flatMap(List::stream)
                 .filter(animal -> animal instanceof WingedAnimal)
                 .map(animal -> (WingedAnimal) animal)
                 .max(Comparator.comparing(WingedAnimal::getWingspan))
-                .orElseThrow(() -> new WingedAnimalsNotFoundException("There are no animals with wing in the zoo"));
+                .orElse(null);
     }
 
-    public Animal findLongestTailAnimal() throws TailedAnimalsNotFoundException {
+    public Animal findLongestTailAnimal() {
         return animalsMap.values().stream().flatMap(List::stream)
                 .filter(animal -> animal instanceof TailedAnimal)
                 .map(animal -> (TailedAnimal) animal)
                 .max(Comparator.comparing(TailedAnimal::getTailLength))
-                .orElseThrow(() -> new TailedAnimalsNotFoundException("There are no animals with tail in the zoo"));
+                .orElse(null);
     }
 }

@@ -1,8 +1,5 @@
 package com.alten.main;
 
-import com.alten.exception.EmptySpeciesException;
-import com.alten.exception.TailedAnimalsNotFoundException;
-import com.alten.exception.WingedAnimalsNotFoundException;
 import com.alten.model.Animal;
 import com.alten.model.Eagle;
 import com.alten.model.Lion;
@@ -12,50 +9,55 @@ import com.alten.util.Zoo;
 public class Main {
 
     public static void main(String[] args) {
+        Zoo zoo = new Zoo();
+        zoo.populateZoo();
+        processZooQueries(zoo);
 
-        try {
-            Zoo zoo = new Zoo();
-            zoo.populateZoo();
+    }
 
-            Animal highestLion = zoo.findHighestAnimal(Lion.class);
-            Animal shortestLion = zoo.findShortestAnimal(Lion.class);
-            Animal heaviestLion = zoo.findHeaviestAnimal(Lion.class);
-            Animal lighestLion = zoo.findLightestAnimal(Lion.class);
+    public static void processZooQueries(Zoo zoo) {
 
-            Animal highestTiger = zoo.findHighestAnimal(Tiger.class);
-            Animal shortestTiger = zoo.findShortestAnimal(Tiger.class);
-            Animal heaviestTiger = zoo.findHeaviestAnimal(Tiger.class);
-            Animal lighestTiger = zoo.findLightestAnimal(Tiger.class);
+        Lion highestLion = zoo.findHighestAnimal(Lion.class);
+        System.out.println("The highest lion is " + highestLion.getName());
 
-            Animal highestEagle = zoo.findHighestAnimal(Eagle.class);
-            Animal shortestEagle = zoo.findShortestAnimal(Eagle.class);
-            Animal heaviestEagle = zoo.findHeaviestAnimal(Eagle.class);
-            Animal lighestEagle = zoo.findLightestAnimal(Eagle.class);
+        Lion shortestLion = zoo.findShortestAnimal(Lion.class);
+        System.out.println("The shortest lion is " + shortestLion.getName());
 
-            Animal largestWingspan = zoo.findLargestWingspanAnimal();
+        Lion heaviestLion = zoo.findHeaviestAnimal(Lion.class);
+        System.out.println("The heaviest lion is " + heaviestLion.getName());
 
-            Animal longestTail = zoo.findLongestTailAnimal();
+        Lion lightestLion = zoo.findLightestAnimal(Lion.class);
+        System.out.println("The lightest lion is " + lightestLion.getName());
 
+        Tiger highestTiger = zoo.findHighestAnimal(Tiger.class);
+        System.out.println("The highest tiger is " + highestTiger.getName());
 
-            System.out.println("The highest lion is " + highestLion.getName() + ", the shortest lion is "
-                    + shortestLion.getName() + ", the heaviest lion is " + heaviestLion.getName()
-                    + ", the lighest lion is " + lighestLion.getName());
+        Tiger shortestTiger = zoo.findShortestAnimal(Tiger.class);
+        System.out.println("The shortest tiger is " + shortestTiger.getName());
 
-            System.out.println("The highest tiger is " + highestTiger.getName() + ", the shortest tiger is "
-                    + shortestTiger.getName() + ", the heaviest tiger is " + heaviestTiger.getName()
-                    + ", the lighest tiger is " + lighestTiger.getName());
+        Tiger heaviestTiger = zoo.findHeaviestAnimal(Tiger.class);
+        System.out.println("The heaviest tiger is " + heaviestTiger.getName());
 
-            System.out.println("The highest eagle is " + highestEagle.getName() + ", the shortest eagle is "
-                    + shortestEagle.getName() + ", the heaviest eagle is " + heaviestEagle.getName()
-                    + ", the lighest eagle is " + lighestEagle.getName());
+        Tiger lightestTiger = zoo.findLightestAnimal(Tiger.class);
+        System.out.println("The lightest tiger is " + lightestTiger.getName());
 
-            System.out.println("The animal with the largest wingspan is " + largestWingspan.getName());
+        Eagle highestEagle = zoo.findHighestAnimal(Eagle.class);
+        System.out.println("The highest eagle is " + highestEagle.getName());
 
-            System.out.println("The animal with the longest tail is " + longestTail.getName());
+        Eagle shortestEagle = zoo.findShortestAnimal(Eagle.class);
+        System.out.println("The shortest eagle is " + shortestEagle.getName());
 
-        } catch (EmptySpeciesException | WingedAnimalsNotFoundException | TailedAnimalsNotFoundException e) {
-            e.printStackTrace();
-        }
+        Eagle heaviestEagle = zoo.findHeaviestAnimal(Eagle.class);
+        System.out.println("The heaviest eagle is " + heaviestEagle.getName());
+
+        Eagle lightestEagle = zoo.findLightestAnimal(Eagle.class);
+        System.out.println("The lightest eagle is " + lightestEagle.getName());
+
+        Animal largestWingspan = zoo.findLargestWingspanAnimal();
+        System.out.println("The animal with the largest wingspan is " + largestWingspan.getName());
+
+        Animal longestTail = zoo.findLongestTailAnimal();
+        System.out.println("The animal with the longest tail is " + longestTail.getName());
 
     }
 }
