@@ -39,38 +39,44 @@ public class Zoo {
 
     public <T extends Animal> T findHighestAnimal(Class<T> species) {
 
-        return findAllAnimalsBySpecies(species).stream().max(Comparator.comparing(Animal::getHeight)).orElse(null);
+        return findAllAnimalsBySpecies(species).stream()
+                .max(Comparator.comparing(Animal::getHeight))
+                .orElse(null);
     }
 
     public <T extends Animal> T findShortestAnimal(Class<T> species) {
 
-        return findAllAnimalsBySpecies(species).stream().min(Comparator.comparing(Animal::getHeight)).orElse(null);
+        return findAllAnimalsBySpecies(species).stream()
+                .min(Comparator.comparing(Animal::getHeight))
+                .orElse(null);
     }
 
     public <T extends Animal> T findHeaviestAnimal(Class<T> species) {
 
-        return findAllAnimalsBySpecies(species).stream().max(Comparator.comparing(Animal::getWeight))
+        return findAllAnimalsBySpecies(species).stream()
+                .max(Comparator.comparing(Animal::getWeight))
                 .orElse(null);
     }
 
     public <T extends Animal> T findLightestAnimal(Class<T> species) {
 
-        return findAllAnimalsBySpecies(species).stream().min(Comparator.comparing(Animal::getWeight))
+        return findAllAnimalsBySpecies(species).stream()
+                .min(Comparator.comparing(Animal::getWeight))
                 .orElse(null);
     }
 
     public Animal findLargestWingspanAnimal() {
         return animalsMap.values().stream().flatMap(List::stream)
-                .filter(animal -> animal instanceof WingedAnimal)
-                .map(animal -> (WingedAnimal) animal)
+                .filter(WingedAnimal.class::isInstance)
+                .map(WingedAnimal.class::cast)
                 .max(Comparator.comparing(WingedAnimal::getWingspan))
                 .orElse(null);
     }
 
     public Animal findLongestTailAnimal() {
         return animalsMap.values().stream().flatMap(List::stream)
-                .filter(animal -> animal instanceof TailedAnimal)
-                .map(animal -> (TailedAnimal) animal)
+                .filter(TailedAnimal.class::isInstance)
+                .map(TailedAnimal.class::cast)
                 .max(Comparator.comparing(TailedAnimal::getTailLength))
                 .orElse(null);
     }
