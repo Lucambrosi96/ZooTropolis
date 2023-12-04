@@ -34,4 +34,9 @@ public class Item {
     public void setSlotsOccupied(int slotsOccupied) {
         this.slotsOccupied = slotsOccupied;
     }
+
+    @Override
+    public String toString() {
+        return name + ", slot occupati: " + slotsOccupied;
+    }
 }
