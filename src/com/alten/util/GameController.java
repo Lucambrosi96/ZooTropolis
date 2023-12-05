@@ -6,8 +6,12 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class GameController {
-    private Player player;
+    private final Player player;
     private Room currentRoom;
+    private static final String NORTH = "North";
+    private static final String SOUTH = "South";
+    private static final String WEST = "West";
+    private static final String EAST = "East";
 
     public GameController(Player player, Room currentRoom) {
         this.player = player;
@@ -23,14 +27,14 @@ public class GameController {
         Room cave = new Room("Cave");
         Room village = new Room("Village");
 
-        castle.getAdjacentRooms().put("North", forest);
-        castle.getAdjacentRooms().put("West", village);
-        forest.getAdjacentRooms().put("South", castle);
-        forest.getAdjacentRooms().put("West", cave);
-        village.getAdjacentRooms().put("East", castle);
-        village.getAdjacentRooms().put("North", cave);
-        cave.getAdjacentRooms().put("East", forest);
-        cave.getAdjacentRooms().put("South", village);
+        castle.getAdjacentRooms().put(NORTH, forest);
+        castle.getAdjacentRooms().put(WEST, village);
+        forest.getAdjacentRooms().put(SOUTH, castle);
+        forest.getAdjacentRooms().put(WEST, cave);
+        village.getAdjacentRooms().put(EAST, castle);
+        village.getAdjacentRooms().put(NORTH, cave);
+        cave.getAdjacentRooms().put(EAST, forest);
+        cave.getAdjacentRooms().put(SOUTH, village);
 
         Item sword = new Item("Sword", "The berserk sword", 5);
         Item shield = new Item("Shield", "Shield of the knights of the round table", 4);
@@ -74,5 +78,108 @@ public class GameController {
         System.out.println("You are in " + currentRoom.getName());
         System.out.println("Items: " + currentRoom.getRoomItems());
         System.out.println("NPC:" + currentRoom.getRoomAnimals());
+    }
+
+    public void bag() {
+        if (player.getBag().getItemList().isEmpty()) {
+            System.out.println("The bag is empty");
+        } else {
+            System.out.println("In bag: " + player.getBag().getItemList());
+        }
+    }
+
+    public void get(String itemName) {
+        Bag bag = player.getBag();
+        Item chosenItem = null;
+        for (Item item : currentRoom.getRoomItems()) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                chosenItem = item;
+            }
+        }
+        if (chosenItem == null) {
+            System.out.println("Item not found in the room");
+        }
+        int bagSlotsOccupied = bag.slotsOccupied();
+
+        int bagUsedSlots = bagSlotsOccupied + chosenItem.getSlotsOccupied();
+
+        if (bagUsedSlots > bag.getSlots()) {
+            System.out.println("Your bag is full.");
+
+        } else {
+            currentRoom.getRoomItems().remove(chosenItem);
+            bag.getItemList().add(chosenItem);
+            System.out.println("Got item: " + chosenItem.getName());
+        }
+
+
+    }
+
+    public void drop(String itemName) {
+        Item item = null;
+        for (Item i : currentRoom.getRoomItems()) {
+            if (i.getName().equalsIgnoreCase(itemName)) {
+                item = i;
+            }
+        }
+        if (item == null) {
+            System.out.println("Item not found in your bag");
+        } else {
+            player.getBag().getItemList().remove(item);
+            currentRoom.getRoomItems().add(item);
+            System.out.println("Dropped item: " + item.getName());
+        }
+
+    }
+
+    public void runGame() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to ZooTropolis");
+        System.out.println("Type 'exit' to end the game");
+
+        boolean endGame = false;
+
+        while (!endGame) {
+            System.out.println("What do you want to do?");
+            String answer = scanner.nextLine();
+
+            switch (answer.toLowerCase()) {
+                case "go north":
+                    go(NORTH);
+                    break;
+                case "go south":
+                    go(SOUTH);
+                    break;
+                case "go west":
+                    go(WEST);
+                    break;
+                case "go east":
+                    go(EAST);
+                    break;
+                case "look":
+                    look();
+                    break;
+                case "bag":
+                    bag();
+                    break;
+                case "get":
+                    System.out.println("Enter the name of the item you want to get");
+                    String takenItem = scanner.nextLine();
+                    get(takenItem);
+                    break;
+                case "drop":
+                    System.out.println("Enter the name of the item you want to drop");
+                    String droppedItem = scanner.nextLine();
+                    drop(droppedItem);
+                    break;
+                case "exit":
+                    System.out.println("Thanks for playing");
+                    endGame = true;
+                    break;
+                default:
+                    System.out.println("Invalid command. Try again");
+                    break;
+            }
+        }
     }
 }

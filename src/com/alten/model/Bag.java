@@ -23,4 +23,12 @@ public class Bag {
     public int getSlots() {
         return slots;
     }
+
+    public int slotsOccupied() {
+        int slotsOccupied = 0;
+        for (Item item : itemList) {
+            slotsOccupied = slotsOccupied + item.getSlotsOccupied();
+        }
+        return slotsOccupied;
+    }
 }
