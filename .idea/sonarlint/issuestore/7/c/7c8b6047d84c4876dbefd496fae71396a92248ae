@@ -1,21 +1,17 @@
 
-e
-java:S2259h"HA "NullPointerException" could be thrown; "chosenItem" is nullable here.(èœßí8İ˜§ËÃ1
-L	java:S106F"+Replace this use of System.out by a logger.(ÒÕ¸×úÿÿÿÿ8ºì‰ËÃ1
-L	java:S106N"+Replace this use of System.out by a logger.(íşàÑûÿÿÿÿ8»ì‰ËÃ1
-L	java:S106O"+Replace this use of System.out by a logger.(İ²¿Óûÿÿÿÿ8»ì‰ËÃ1
-L	java:S106P"+Replace this use of System.out by a logger.(ïÃŸâúÿÿÿÿ8»ì‰ËÃ1
-G	java:S106U"+Replace this use of System.out by a logger.(·òÒ¥8¼ì‰ËÃ1
-L	java:S106W"+Replace this use of System.out by a logger.(ªşò˜ûÿÿÿÿ8¼ì‰ËÃ1
-G	java:S106d"+Replace this use of System.out by a logger.(Š¢ê¿8¾ì‰ËÃ1
-G	java:S106k"+Replace this use of System.out by a logger.(¸¦¾§8¿ì‰ËÃ1
-G	java:S106p"+Replace this use of System.out by a logger.(¢í‹·8Àì‰ËÃ1
-L	java:S106~"+Replace this use of System.out by a logger.(‚Ê‡ûÿÿÿÿ8Áì‰ËÃ1
-H	java:S106‚"+Replace this use of System.out by a logger.(¢­ê‰8Âì‰ËÃ1
-M	java:S106‰"+Replace this use of System.out by a logger.(˜½ÔÀùÿÿÿÿ8Åì‰ËÃ1
-M	java:S106Š"+Replace this use of System.out by a logger.(¶•åíúÿÿÿÿ8Åì‰ËÃ1
-G	java:S106"+Replace this use of System.out by a logger.(íüœ-8Æì‰ËÃ1
-H	java:S106¦"+Replace this use of System.out by a logger.(Á•îã8Æì‰ËÃ1
-M	java:S106«"+Replace this use of System.out by a logger.(ù­û¼ùÿÿÿÿ8Èì‰ËÃ1
-H	java:S106°"+Replace this use of System.out by a logger.(°ÃÃƒ8Èì‰ËÃ1
-H	java:S106´"+Replace this use of System.out by a logger.(‡Ö­Ê8Èì‰ËÃ1
+L	java:S106F"+Replace this use of System.out by a logger.(ÒÕ¸×úÿÿÿÿ8ãèÎÃ1
+L	java:S106N"+Replace this use of System.out by a logger.(íşàÑûÿÿÿÿ8ŸãèÎÃ1
+L	java:S106O"+Replace this use of System.out by a logger.(İ²¿Óûÿÿÿÿ8ŸãèÎÃ1
+L	java:S106P"+Replace this use of System.out by a logger.(ïÃŸâúÿÿÿÿ8 ãèÎÃ1
+G	java:S106U"+Replace this use of System.out by a logger.(·òÒ¥8 ãèÎÃ1
+L	java:S106W"+Replace this use of System.out by a logger.(ªşò˜ûÿÿÿÿ8 ãèÎÃ1
+G	java:S106s"+Replace this use of System.out by a logger.(Š¢ê¿8£ãèÎÃ1
+G	java:S106z"+Replace this use of System.out by a logger.(¸¦¾§8¤ãèÎÃ1
+G	java:S106~"+Replace this use of System.out by a logger.(¢í‹·8¥ãèÎÃ1
+M	java:S106Œ"+Replace this use of System.out by a logger.(‚Ê‡ûÿÿÿÿ8®ãèÎÃ1
+M	java:S106"+Replace this use of System.out by a logger.(•…·Ñşÿÿÿÿ8ÓöèÎÃ1
+M	java:S106—"+Replace this use of System.out by a logger.(˜½ÔÀùÿÿÿÿ8ØöèÎÃ1
+M	java:S106˜"+Replace this use of System.out by a logger.(¶•åíúÿÿÿÿ8ÙöèÎÃ1
+G	java:S106"+Replace this use of System.out by a logger.(íüœ-8ÙöèÎÃ1
+H	java:S106¹"+Replace this use of System.out by a logger.(°ÃÃƒ8ÛöèÎÃ1
+H	java:S106½"+Replace this use of System.out by a logger.(‡Ö­Ê8ÛöèÎÃ1

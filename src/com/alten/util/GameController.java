@@ -88,6 +88,21 @@ public class GameController {
         }
     }
 
+    public String checkAnswer(String answer) {
+
+        if (answer.startsWith("get ")) {
+            String itemName = answer.substring(4).trim();
+            answer = answer.substring(0, 3);
+            get(itemName);
+        }
+        if (answer.startsWith("drop ")) {
+            String itemName = answer.substring(5).trim();
+            answer = answer.substring(0, 4);
+            drop(itemName);
+        }
+        return answer;
+    }
+
     public void get(String itemName) {
         Bag bag = player.getBag();
         Item chosenItem = null;
@@ -98,15 +113,14 @@ public class GameController {
         }
         if (chosenItem == null) {
             System.out.println("Item not found in the room");
-        }
-        int bagSlotsOccupied = bag.slotsOccupied();
-
-        int bagUsedSlots = bagSlotsOccupied + chosenItem.getSlotsOccupied();
-
-        if (bagUsedSlots > bag.getSlots()) {
-            System.out.println("Your bag is full.");
-
         } else {
+            int bagSlotsOccupied = bag.slotsOccupied();
+
+            int bagUsedSlots = bagSlotsOccupied + chosenItem.getSlotsOccupied();
+
+            if (bagUsedSlots > bag.getSlots()) {
+                System.out.println("Your bag is full.");
+            }
             currentRoom.getRoomItems().remove(chosenItem);
             bag.getItemList().add(chosenItem);
             System.out.println("Got item: " + chosenItem.getName());
@@ -116,18 +130,18 @@ public class GameController {
     }
 
     public void drop(String itemName) {
-        Item item = null;
-        for (Item i : currentRoom.getRoomItems()) {
-            if (i.getName().equalsIgnoreCase(itemName)) {
-                item = i;
+        Item droppedItem = null;
+        for (Item item : player.getBag().getItemList()) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                droppedItem = item;
             }
         }
-        if (item == null) {
+        if (droppedItem == null) {
             System.out.println("Item not found in your bag");
         } else {
-            player.getBag().getItemList().remove(item);
-            currentRoom.getRoomItems().add(item);
-            System.out.println("Dropped item: " + item.getName());
+            player.getBag().getItemList().remove(droppedItem);
+            currentRoom.getRoomItems().add(droppedItem);
+            System.out.println("Dropped item: " + droppedItem.getName());
         }
 
     }
@@ -142,6 +156,7 @@ public class GameController {
         while (!endGame) {
             System.out.println("What do you want to do?");
             String answer = scanner.nextLine();
+            answer = checkAnswer(answer);
 
             switch (answer.toLowerCase()) {
                 case "go north":
@@ -163,14 +178,8 @@ public class GameController {
                     bag();
                     break;
                 case "get":
-                    System.out.println("Enter the name of the item you want to get");
-                    String takenItem = scanner.nextLine();
-                    get(takenItem);
                     break;
                 case "drop":
-                    System.out.println("Enter the name of the item you want to drop");
-                    String droppedItem = scanner.nextLine();
-                    drop(droppedItem);
                     break;
                 case "exit":
                     System.out.println("Thanks for playing");
