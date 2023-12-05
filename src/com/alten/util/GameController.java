@@ -75,9 +75,17 @@ public class GameController {
     }
 
     public void look() {
+
         System.out.println("You are in " + currentRoom.getName());
-        System.out.println("Items: " + currentRoom.getRoomItems());
-        System.out.println("NPC:" + currentRoom.getRoomAnimals());
+        System.out.print("Items: ");
+        for (Item item : currentRoom.getRoomItems()) {
+            System.out.print(item + " ");
+        }
+        System.out.print("\nNPC: ");
+        for (Animal animal : currentRoom.getRoomAnimals()) {
+            System.out.print(animal + " ");
+        }
+        System.out.println();
     }
 
     public void bag() {
@@ -125,8 +133,6 @@ public class GameController {
             bag.getItemList().add(chosenItem);
             System.out.println("Got item: " + chosenItem.getName());
         }
-
-
     }
 
     public void drop(String itemName) {
