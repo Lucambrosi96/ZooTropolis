@@ -27,12 +27,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/.idea/sonarlint/issuestore/2/e/2e2eb26181916090ae35c8d42535fd9448078f67
-/.idea/sonarlint/issuestore/1/3/130e73ec34a03ec846991343bd1730332bcf1150
-/.idea/sonarlint/securityhotspotstore/1/3/130e73ec34a03ec846991343bd1730332bcf1150
-/.idea/sonarlint/issuestore/7/3/7315ddbce5c9ae5d1075d366c7cd243017bc9886
-/.idea/sonarlint/securityhotspotstore/7/3/7315ddbce5c9ae5d1075d366c7cd243017bc9886
-/.idea/sonarlint/issuestore/index.pb
-/.idea/sonarlint/securityhotspotstore/index.pb
-/.idea/sonarlint/issuestore/a/5
-/.idea/sonarlint/securityhotspotstore/a/5
+/.idea
