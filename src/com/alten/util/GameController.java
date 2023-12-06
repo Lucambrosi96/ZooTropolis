@@ -92,7 +92,11 @@ public class GameController {
         if (player.getBag().getItemList().isEmpty()) {
             System.out.println("The bag is empty");
         } else {
-            System.out.println("In bag: " + player.getBag().getItemList());
+            System.out.print("In bag: ");
+            for (Item item : player.getBag().getItemList()) {
+                System.out.print(item + " ");
+            }
+            System.out.println("Free slots: " + (player.getBag().getSlots() - player.getBag().slotsOccupied()));
         }
     }
 
@@ -122,16 +126,16 @@ public class GameController {
         if (chosenItem == null) {
             System.out.println("Item not found in the room");
         } else {
-            int bagSlotsOccupied = bag.slotsOccupied();
 
-            int bagUsedSlots = bagSlotsOccupied + chosenItem.getSlotsOccupied();
+            int bagUsedSlots = bag.slotsOccupied() + chosenItem.getSlotsOccupied();
 
             if (bagUsedSlots > bag.getSlots()) {
                 System.out.println("Your bag is full.");
+            } else {
+                currentRoom.getRoomItems().remove(chosenItem);
+                bag.getItemList().add(chosenItem);
+                System.out.println("Got item: " + chosenItem.getName());
             }
-            currentRoom.getRoomItems().remove(chosenItem);
-            bag.getItemList().add(chosenItem);
-            System.out.println("Got item: " + chosenItem.getName());
         }
     }
 
