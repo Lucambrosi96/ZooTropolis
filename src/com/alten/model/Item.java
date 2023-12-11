@@ -37,6 +37,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return name + ", slot occupati: " + slotsOccupied + ". ";
+        return name + ", occupied slots: " + slotsOccupied + ". ";
     }
 }

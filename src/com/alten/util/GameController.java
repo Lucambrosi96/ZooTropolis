@@ -3,15 +3,20 @@ package com.alten.util;
 import com.alten.model.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class GameController {
     private final Player player;
     private Room currentRoom;
-    private static final String NORTH = "North";
-    private static final String SOUTH = "South";
-    private static final String WEST = "West";
-    private static final String EAST = "East";
+    private static final String NORTH = "north";
+    private static final String SOUTH = "south";
+    private static final String WEST = "west";
+    private static final String EAST = "east";
+    private Map<String, Runnable> simpleActionMap;
+    private Map<String, Consumer<String>> complexActionMap;
 
     public GameController(Player player, Room currentRoom) {
         this.player = player;
@@ -75,7 +80,6 @@ public class GameController {
     }
 
     public void look() {
-
         System.out.println("You are in " + currentRoom.getName());
         System.out.print("Items: ");
         for (Item item : currentRoom.getRoomItems()) {
@@ -100,21 +104,6 @@ public class GameController {
         }
     }
 
-    public String checkAnswer(String answer) {
-
-        if (answer.startsWith("get ")) {
-            String itemName = answer.substring(4).trim();
-            answer = answer.substring(0, 3);
-            get(itemName);
-        }
-        if (answer.startsWith("drop ")) {
-            String itemName = answer.substring(5).trim();
-            answer = answer.substring(0, 4);
-            drop(itemName);
-        }
-        return answer;
-    }
-
     public void get(String itemName) {
         Bag bag = player.getBag();
         Item chosenItem = null;
@@ -126,7 +115,6 @@ public class GameController {
         if (chosenItem == null) {
             System.out.println("Item not found in the room");
         } else {
-
             int bagUsedSlots = bag.slotsOccupied() + chosenItem.getSlotsOccupied();
 
             if (bagUsedSlots > bag.getSlots()) {
@@ -153,10 +141,36 @@ public class GameController {
             currentRoom.getRoomItems().add(droppedItem);
             System.out.println("Dropped item: " + droppedItem.getName());
         }
+    }
 
+    public void setActionMaps() {
+        simpleActionMap = new HashMap<>();
+        complexActionMap = new HashMap<>();
+
+        simpleActionMap.put("look", this::look);
+        simpleActionMap.put("bag", this::bag);
+        complexActionMap.put("go", this::go);
+        complexActionMap.put("get", this::get);
+        complexActionMap.put("drop", this::drop);
+    }
+
+    public void checkAnswer(String answer) {
+        String[] inputWords = answer.split(" ");
+        String commandKey = inputWords[0];
+
+        if (inputWords.length == 1 && simpleActionMap.containsKey(commandKey)) {
+            simpleActionMap.get(commandKey).run();
+        } else if (inputWords.length == 2 && complexActionMap.containsKey(commandKey)) {
+            String commandValue = inputWords[1];
+            complexActionMap.get(commandKey).accept(commandValue);
+        } else {
+            System.out.println("Invalid command. Try again");
+        }
     }
 
     public void runGame() {
+        setActionMaps();
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to ZooTropolis");
         System.out.println("Type 'exit' to end the game");
@@ -166,38 +180,11 @@ public class GameController {
         while (!endGame) {
             System.out.println("What do you want to do?");
             String answer = scanner.nextLine();
-            answer = checkAnswer(answer);
-
-            switch (answer.toLowerCase()) {
-                case "go north":
-                    go(NORTH);
-                    break;
-                case "go south":
-                    go(SOUTH);
-                    break;
-                case "go west":
-                    go(WEST);
-                    break;
-                case "go east":
-                    go(EAST);
-                    break;
-                case "look":
-                    look();
-                    break;
-                case "bag":
-                    bag();
-                    break;
-                case "get":
-                    break;
-                case "drop":
-                    break;
-                case "exit":
-                    System.out.println("Thanks for playing");
-                    endGame = true;
-                    break;
-                default:
-                    System.out.println("Invalid command. Try again");
-                    break;
+            if (answer.equalsIgnoreCase("exit")) {
+                endGame = true;
+                System.out.println("Thanks for playing");
+            } else {
+                checkAnswer(answer.toLowerCase());
             }
         }
     }
