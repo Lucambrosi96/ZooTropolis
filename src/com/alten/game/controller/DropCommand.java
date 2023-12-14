@@ -2,18 +2,14 @@ package com.alten.game.controller;
 
 import com.alten.game.model.Item;
 
-public class DropController extends Controller {
+public class DropCommand {
+    private final GameController gameController;
 
-    public DropController(GameController gameController) {
-        super(gameController);
+    public DropCommand(GameController gameController) {
+        this.gameController = gameController;
     }
 
-    @Override
-    public void run() {
-    }
-
-    @Override
-    public void complexActionRun(String itemName) {
+    public void run(String itemName) {
         Item droppedItem = gameController.getPlayer().getItemByName(itemName);
         if (droppedItem == null) {
             System.out.println("Item not found in your bag");

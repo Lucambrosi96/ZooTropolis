@@ -3,12 +3,13 @@ package com.alten.game.controller;
 import com.alten.game.model.Item;
 import com.alten.game.model.Player;
 
-public class BagController extends Controller {
-    public BagController(GameController gameController) {
-        super(gameController);
+public class BagCommand {
+    private final GameController gameController;
+
+    public BagCommand(GameController gameController) {
+        this.gameController = gameController;
     }
 
-    @Override
     public void run() {
         Player player = gameController.getPlayer();
         if (player.getItemsFromBag().isEmpty()) {
@@ -20,9 +21,5 @@ public class BagController extends Controller {
             }
             System.out.println("Free slots: " + player.freeSlotsInBag());
         }
-    }
-
-    @Override
-    public void complexActionRun(String args) {
     }
 }

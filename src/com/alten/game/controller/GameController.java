@@ -43,15 +43,16 @@ public class GameController {
         Room cave = new Room("Cave");
         Room village = new Room("Village");
 
-        castle.getAdjacentRooms().put(NORTH, forest);
-        castle.getAdjacentRooms().put(WEST, village);
-        forest.getAdjacentRooms().put(SOUTH, castle);
-        forest.getAdjacentRooms().put(WEST, cave);
-        village.getAdjacentRooms().put(EAST, castle);
-        village.getAdjacentRooms().put(NORTH, cave);
-        cave.getAdjacentRooms().put(EAST, forest);
-        cave.getAdjacentRooms().put(SOUTH, village);
+        castle.addAdjacentRooms(NORTH, forest);
+        castle.addAdjacentRooms(WEST, village);
+        forest.addAdjacentRooms(SOUTH, castle);
+        forest.addAdjacentRooms(WEST, cave);
+        village.addAdjacentRooms(EAST, castle);
+        village.addAdjacentRooms(NORTH, cave);
+        cave.addAdjacentRooms(EAST, forest);
+        cave.addAdjacentRooms(SOUTH, village);
 
+        Item longSword = new Item("Long Sword", "The berserk sword", 7);
         Item sword = new Item("Sword", "The berserk sword", 5);
         Item shield = new Item("Shield", "Shield of the knights of the round table", 4);
         Item potion = new Item("Potion", "A potion with a strange taste", 2);
@@ -59,12 +60,13 @@ public class GameController {
         Item gold = new Item("Gold", "A small piece of gold", 3);
         Item ring = new Item("Ring", "The elden ring", 2);
 
-        castle.getItems().add(sword);
-        forest.getItems().add(shield);
-        forest.getItems().add(potion);
-        village.getItems().add(ring);
-        cave.getItems().add(gold);
-        cave.getItems().add(diamond);
+        castle.addItem(longSword);
+        castle.addItem(sword);
+        forest.addItem(shield);
+        forest.addItem(potion);
+        village.addItem(ring);
+        cave.addItem(gold);
+        cave.addItem(diamond);
 
         Lion simba = new Lion("Simba", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f);
         Lion mufasa = new Lion("Mufasa", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f);
@@ -72,11 +74,11 @@ public class GameController {
         Tiger pinco = new Tiger("Pinco", "Antelope", 7, LocalDate.of(2020, 10, 10), 2.00f, 270f, 0.80f);
         Eagle olympia = new Eagle("Olympia", "Rabbit", 3, LocalDate.of(2019, 10, 5), 0.75f, 3f, 1.80f);
 
-        castle.getAnimals().add(simba);
-        forest.getAnimals().add(olympia);
-        forest.getAnimals().add(mufasa);
-        village.getAnimals().add(black);
-        cave.getAnimals().add(pinco);
+        castle.addAnimal(simba);
+        forest.addAnimal(olympia);
+        forest.addAnimal(mufasa);
+        village.addAnimal(black);
+        cave.addAnimal(pinco);
 
         currentRoom = castle;
     }
@@ -89,22 +91,22 @@ public class GameController {
         simpleActionMap = new HashMap<>();
         complexActionMap = new HashMap<>();
 
-        LookController lookController = new LookController(this);
-        BagController bagController = new BagController(this);
-        GoController goController = new GoController(this);
-        GetController getController = new GetController(this);
-        DropController dropController = new DropController(this);
+        LookCommand lookCommand = new LookCommand(this);
+        BagCommand bagCommand = new BagCommand(this);
+        GoCommand goCommand = new GoCommand(this);
+        GetCommand getCommand = new GetCommand(this);
+        DropCommand dropCommand = new DropCommand(this);
 
         simpleActionMap.put("commands", this::commands);
-        simpleActionMap.put("look", lookController::run);
-        simpleActionMap.put("bag", bagController::run);
-        complexActionMap.put("go", goController::complexActionRun);
-        complexActionMap.put("get", getController::complexActionRun);
-        complexActionMap.put("drop", dropController::complexActionRun);
+        simpleActionMap.put("look", lookCommand::run);
+        simpleActionMap.put("bag", bagCommand::run);
+        complexActionMap.put("go", goCommand::run);
+        complexActionMap.put("get", getCommand::run);
+        complexActionMap.put("drop", dropCommand::run);
     }
 
     public void checkAnswer(String answer) {
-        String[] inputWords = answer.split(" ");
+        String[] inputWords = answer.trim().split("\\s+", 2);
         if (!answer.trim().isEmpty()) {
             String commandKey = inputWords[0];
 

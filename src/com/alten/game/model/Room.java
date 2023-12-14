@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Room {
-    private String name;
-    private List<Item> items;
-    private List<Animal> animals;
-    private Map<String, Room> adjacentRooms;
+    private final String name;
+    private final List<Item> items;
+    private final List<Animal> animals;
+    private final Map<String, Room> adjacentRooms;
 
     public Room(String name) {
         this.name = name;
@@ -24,32 +24,16 @@ public class Room {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Item> getItems() {
         return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     public List<Animal> getAnimals() {
         return animals;
     }
 
-    public void setAnimals(List<Animal> animals) {
-        this.animals = animals;
-    }
-
     public Map<String, Room> getAdjacentRooms() {
         return adjacentRooms;
-    }
-
-    public void setAdjacentRooms(Map<String, Room> adjacentRooms) {
-        this.adjacentRooms = adjacentRooms;
     }
 
     public void addItem(Item item) {
@@ -58,6 +42,12 @@ public class Room {
 
     public void removeItem(Item item) {
         items.remove(item);
+    }
+    public void addAnimal(Animal animal) {
+        animals.add(animal);
+    }
+    public void addAdjacentRooms(String direction, Room room){
+        adjacentRooms.put(direction, room);
     }
 
     public void getInformation() {

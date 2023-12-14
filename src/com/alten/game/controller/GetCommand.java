@@ -2,17 +2,14 @@ package com.alten.game.controller;
 
 import com.alten.game.model.Item;
 
-public class GetController extends Controller {
-    public GetController(GameController gameController) {
-        super(gameController);
+public class GetCommand {
+    private final GameController gameController;
+
+    public GetCommand(GameController gameController) {
+        this.gameController = gameController;
     }
 
-    @Override
-    public void run() {
-    }
-
-    @Override
-    public void complexActionRun(String itemName) {
+    public void run(String itemName) {
         Item chosenItem = gameController.getCurrentRoom().getItemByName(itemName);
         if (chosenItem == null) {
             System.out.println("Item not found in the room");

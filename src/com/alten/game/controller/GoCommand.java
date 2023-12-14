@@ -1,16 +1,13 @@
 package com.alten.game.controller;
 
-public class GoController extends Controller {
-    public GoController(GameController gameController) {
-        super(gameController);
+public class GoCommand {
+    private final GameController gameController;
+
+    public GoCommand(GameController gameController) {
+        this.gameController = gameController;
     }
 
-    @Override
-    public void run() {
-    }
-
-    @Override
-    public void complexActionRun(String direction) {
+    public void run(String direction) {
         if (gameController.getCurrentRoom().checkDirection(direction)) {
             gameController.setCurrentRoom(gameController.getCurrentRoom().move(direction));
             gameController.getCurrentRoom().getInformation();

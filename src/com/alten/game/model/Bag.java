@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bag {
-    private List<Item> items;
+    private final List<Item> items;
     private final int slots;
 
     public Bag() {
@@ -14,10 +14,6 @@ public class Bag {
 
     public List<Item> getItems() {
         return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     public int getSlots() {
