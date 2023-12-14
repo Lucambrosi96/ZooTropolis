@@ -1,7 +1,7 @@
 package com.alten.main;
 
-import com.alten.model.Player;
-import com.alten.controller.GameController;
+import com.alten.game.model.Player;
+import com.alten.game.controller.GameController;
 
 public class Main {
     public static void main(String[] args) {

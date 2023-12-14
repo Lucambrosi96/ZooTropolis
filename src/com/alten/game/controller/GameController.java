@@ -1,6 +1,9 @@
-package com.alten.controller;
+package com.alten.game.controller;
 
-import com.alten.model.*;
+import com.alten.animal.model.Eagle;
+import com.alten.animal.model.Lion;
+import com.alten.animal.model.Tiger;
+import com.alten.game.model.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -35,7 +38,6 @@ public class GameController {
     }
 
     public void populateGame() {
-
         Room castle = new Room("Castle");
         Room forest = new Room("Forest");
         Room cave = new Room("Cave");
@@ -57,12 +59,12 @@ public class GameController {
         Item gold = new Item("Gold", "A small piece of gold", 3);
         Item ring = new Item("Ring", "The elden ring", 2);
 
-        castle.getRoomItems().add(sword);
-        forest.getRoomItems().add(shield);
-        forest.getRoomItems().add(potion);
-        village.getRoomItems().add(ring);
-        cave.getRoomItems().add(gold);
-        cave.getRoomItems().add(diamond);
+        castle.getItems().add(sword);
+        forest.getItems().add(shield);
+        forest.getItems().add(potion);
+        village.getItems().add(ring);
+        cave.getItems().add(gold);
+        cave.getItems().add(diamond);
 
         Lion simba = new Lion("Simba", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f);
         Lion mufasa = new Lion("Mufasa", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f);
@@ -70,11 +72,11 @@ public class GameController {
         Tiger pinco = new Tiger("Pinco", "Antelope", 7, LocalDate.of(2020, 10, 10), 2.00f, 270f, 0.80f);
         Eagle olympia = new Eagle("Olympia", "Rabbit", 3, LocalDate.of(2019, 10, 5), 0.75f, 3f, 1.80f);
 
-        castle.getRoomAnimals().add(simba);
-        forest.getRoomAnimals().add(olympia);
-        forest.getRoomAnimals().add(mufasa);
-        village.getRoomAnimals().add(black);
-        cave.getRoomAnimals().add(pinco);
+        castle.getAnimals().add(simba);
+        forest.getAnimals().add(olympia);
+        forest.getAnimals().add(mufasa);
+        village.getAnimals().add(black);
+        cave.getAnimals().add(pinco);
 
         currentRoom = castle;
     }

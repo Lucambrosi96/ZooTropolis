@@ -1,4 +1,6 @@
-package com.alten.model;
+package com.alten.game.model;
+
+import java.util.List;
 
 public class Player {
     private String name;
@@ -33,5 +35,29 @@ public class Player {
 
     public void setBag(Bag bag) {
         this.bag = bag;
+    }
+
+    public void addItemToBag(Item item) {
+        bag.addItem(item);
+    }
+
+    public void removeItemFromBag(Item item) {
+        bag.removeItem(item);
+    }
+
+    public List<Item> getItemsFromBag() {
+        return bag.getItems();
+    }
+
+    public boolean checkItemEntersInBag(Item item) {
+        return bag.checkItemEnters(item);
+    }
+
+    public int freeSlotsInBag() {
+        return bag.freeSlots();
+    }
+
+    public Item getItemByName(String itemName) {
+        return bag.getItemByName(itemName);
     }
 }

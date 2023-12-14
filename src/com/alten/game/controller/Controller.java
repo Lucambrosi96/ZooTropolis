@@ -1,4 +1,4 @@
-package com.alten.controller;
+package com.alten.game.controller;
 
 public abstract class Controller {
 

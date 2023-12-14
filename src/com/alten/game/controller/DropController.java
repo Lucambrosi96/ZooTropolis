@@ -1,6 +1,6 @@
-package com.alten.controller;
+package com.alten.game.controller;
 
-import com.alten.model.Item;
+import com.alten.game.model.Item;
 
 public class DropController extends Controller {
 
@@ -14,17 +14,12 @@ public class DropController extends Controller {
 
     @Override
     public void complexActionRun(String itemName) {
-        Item droppedItem = null;
-        for (Item item : gameController.getPlayer().getBag().getItemList()) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
-                droppedItem = item;
-            }
-        }
+        Item droppedItem = gameController.getPlayer().getItemByName(itemName);
         if (droppedItem == null) {
             System.out.println("Item not found in your bag");
         } else {
-            gameController.getPlayer().getBag().getItemList().remove(droppedItem);
-            gameController.getCurrentRoom().getRoomItems().add(droppedItem);
+            gameController.getPlayer().removeItemFromBag(droppedItem);
+            gameController.getCurrentRoom().addItem(droppedItem);
             System.out.println("Dropped item: " + droppedItem.getName());
         }
     }

@@ -1,15 +1,15 @@
-package com.alten.util;
+package com.alten.animal.controller;
 
-import com.alten.model.*;
+import com.alten.animal.model.*;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public class Zoo {
+public class ZooController {
 
     private final Map<Class<? extends Animal>, List<Animal>> animalsMap;
 
-    public Zoo() {
+    public ZooController() {
         this.animalsMap = new HashMap<>();
     }
 
