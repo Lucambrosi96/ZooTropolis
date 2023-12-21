@@ -12,9 +12,12 @@ public class Player {
         this.lifePoints = lifePoints;
         this.bag = new Bag();
     }
+    public String getName() {
+        return name;
+    }
 
-    public void addItemToBag(Item item) {
-        bag.addItem(item);
+    public boolean addItemToBag(Item item) {
+        return bag.addItem(item);
     }
 
     public void removeItemFromBag(Item item) {
@@ -25,8 +28,8 @@ public class Player {
         return bag.getItems();
     }
 
-    public boolean checkItemEntersInBag(Item item) {
-        return bag.checkItemEnters(item);
+    public boolean bagIsEmpty(){
+        return bag.isEmpty();
     }
 
     public int freeSlotsInBag() {

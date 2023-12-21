@@ -2,37 +2,26 @@ package com.alten.game.model;
 
 import com.alten.animal.model.Animal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Room {
     private final String name;
     private final List<Item> items;
     private final List<Animal> animals;
-    private final Map<String, Room> adjacentRooms;
+    private final Map<Direction, Room> adjacentRooms;
 
     public Room(String name) {
         this.name = name;
         this.items = new ArrayList<>();
         this.animals = new ArrayList<>();
-        this.adjacentRooms = new HashMap<>();
+        this.adjacentRooms = new EnumMap<>(Direction.class);
     }
 
     public String getName() {
         return name;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public List<Animal> getAnimals() {
-        return animals;
-    }
-
-    public Map<String, Room> getAdjacentRooms() {
+    public Map<Direction, Room> getAdjacentRooms() {
         return adjacentRooms;
     }
 
@@ -43,41 +32,42 @@ public class Room {
     public void removeItem(Item item) {
         items.remove(item);
     }
+
     public void addAnimal(Animal animal) {
         animals.add(animal);
     }
-    public void addAdjacentRooms(String direction, Room room){
+
+    public void addAdjacentRooms(Direction direction, Room room){
         adjacentRooms.put(direction, room);
     }
 
     public void getInformation() {
         System.out.println("You are in " + getName());
         System.out.print("Items: ");
-        for (Item item : getItems()) {
+        for (Item item : items) {
             System.out.print(item + " ");
         }
         System.out.print("\nNPC: ");
-        for (Animal animal : getAnimals()) {
+        for (Animal animal : animals) {
             System.out.print(animal + " ");
         }
         System.out.println();
     }
 
-    public boolean checkDirection(String direction) {
+    public boolean checkDirection(String directionName) {
+        Direction direction = Direction.getDirectionFromName(directionName);
         return getAdjacentRooms().containsKey(direction);
     }
 
-    public Room move(String direction) {
+    public Room move(String directionName) {
+        Direction direction = Direction.getDirectionFromName(directionName);
         return getAdjacentRooms().get(direction);
     }
 
     public Item getItemByName(String itemName) {
-        Item chosenItem = null;
-        for (Item item : getItems()) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
-                chosenItem = item;
-            }
-        }
-        return chosenItem;
+        return items.stream()
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
     }
 }

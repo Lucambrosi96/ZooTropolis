@@ -16,20 +16,22 @@ public class Bag {
         return items;
     }
 
-    public int getSlots() {
-        return slots;
+    public boolean isEmpty(){
+        return items.isEmpty();
     }
 
     public int slotsOccupied() {
-        int slotsOccupied = 0;
-        for (Item item : items) {
-            slotsOccupied = slotsOccupied + item.getSlotsOccupied();
-        }
-        return slotsOccupied;
+        return items.stream()
+                .mapToInt(Item::getSlotsOccupied)
+                .sum();
     }
 
-    public void addItem(Item item) {
-        items.add(item);
+    public boolean addItem(Item item) {
+        if(checkItemEnters(item)){
+            items.add(item);
+            return true;
+        }
+        return false;
     }
 
     public void removeItem(Item item) {
@@ -38,20 +40,17 @@ public class Bag {
 
     public boolean checkItemEnters(Item item) {
         int bagUsedSlots = slotsOccupied() + item.getSlotsOccupied();
-        return bagUsedSlots <= getSlots();
+        return bagUsedSlots <= slots;
     }
 
     public int freeSlots() {
-        return getSlots() - slotsOccupied();
+        return slots - slotsOccupied();
     }
 
     public Item getItemByName(String itemName) {
-        Item chosenItem = null;
-        for (Item item : getItems()) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
-                chosenItem = item;
-            }
-        }
-        return chosenItem;
+        return items.stream()
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
     }
 }

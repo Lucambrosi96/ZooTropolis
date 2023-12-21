@@ -3,16 +3,19 @@ package com.alten.game.controller;
 import com.alten.game.model.Item;
 import com.alten.game.model.Player;
 
-public class BagCommand {
+import java.util.List;
+
+public class BagCommand implements Command{
     private final GameController gameController;
 
     public BagCommand(GameController gameController) {
         this.gameController = gameController;
     }
 
-    public void run() {
+    @Override
+    public void execute(List<String> parameters) {
         Player player = gameController.getPlayer();
-        if (player.getItemsFromBag().isEmpty()) {
+        if (player.bagIsEmpty()) {
             System.out.println("The bag is empty");
         } else {
             System.out.print("In bag: ");

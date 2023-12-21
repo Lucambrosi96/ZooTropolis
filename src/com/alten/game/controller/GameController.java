@@ -3,23 +3,21 @@ package com.alten.game.controller;
 import com.alten.animal.model.Eagle;
 import com.alten.animal.model.Lion;
 import com.alten.animal.model.Tiger;
-import com.alten.game.model.*;
+import com.alten.game.model.Direction;
+import com.alten.game.model.Item;
+import com.alten.game.model.Player;
+import com.alten.game.model.Room;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 public class GameController {
     private final Player player;
     private Room currentRoom;
-    private static final String NORTH = "north";
-    private static final String SOUTH = "south";
-    private static final String WEST = "west";
-    private static final String EAST = "east";
-    private Map<String, Runnable> simpleActionMap;
-    private Map<String, Consumer<String>> complexActionMap;
+    private Map<String, Command> commandMap;
 
     public GameController(Player player) {
         this.player = player;
@@ -43,14 +41,14 @@ public class GameController {
         Room cave = new Room("Cave");
         Room village = new Room("Village");
 
-        castle.addAdjacentRooms(NORTH, forest);
-        castle.addAdjacentRooms(WEST, village);
-        forest.addAdjacentRooms(SOUTH, castle);
-        forest.addAdjacentRooms(WEST, cave);
-        village.addAdjacentRooms(EAST, castle);
-        village.addAdjacentRooms(NORTH, cave);
-        cave.addAdjacentRooms(EAST, forest);
-        cave.addAdjacentRooms(SOUTH, village);
+        castle.addAdjacentRooms(Direction.NORTH, forest);
+        castle.addAdjacentRooms(Direction.WEST, village);
+        forest.addAdjacentRooms(Direction.SOUTH, castle);
+        forest.addAdjacentRooms(Direction.WEST, cave);
+        village.addAdjacentRooms(Direction.EAST, castle);
+        village.addAdjacentRooms(Direction.NORTH, cave);
+        cave.addAdjacentRooms(Direction.EAST, forest);
+        cave.addAdjacentRooms(Direction.SOUTH, village);
 
         Item longSword = new Item("Long Sword", "The berserk sword", 7);
         Item sword = new Item("Sword", "The berserk sword", 5);
@@ -88,8 +86,7 @@ public class GameController {
     }
 
     public void setActionMaps() {
-        simpleActionMap = new HashMap<>();
-        complexActionMap = new HashMap<>();
+        commandMap = new HashMap<>();
 
         LookCommand lookCommand = new LookCommand(this);
         BagCommand bagCommand = new BagCommand(this);
@@ -97,24 +94,20 @@ public class GameController {
         GetCommand getCommand = new GetCommand(this);
         DropCommand dropCommand = new DropCommand(this);
 
-        simpleActionMap.put("commands", this::commands);
-        simpleActionMap.put("look", lookCommand::run);
-        simpleActionMap.put("bag", bagCommand::run);
-        complexActionMap.put("go", goCommand::run);
-        complexActionMap.put("get", getCommand::run);
-        complexActionMap.put("drop", dropCommand::run);
+        commandMap.put("look", lookCommand);
+        commandMap.put("bag", bagCommand);
+        commandMap.put("go", goCommand);
+        commandMap.put("get", getCommand);
+        commandMap.put("drop", dropCommand);
     }
 
     public void checkAnswer(String answer) {
-        String[] inputWords = answer.trim().split("\\s+", 2);
+        List<String> inputWords = List.of(answer.trim().split("\\s+", 2));
         if (!answer.trim().isEmpty()) {
-            String commandKey = inputWords[0];
+            String commandKey = inputWords.get(0);
 
-            if (inputWords.length == 1 && simpleActionMap.containsKey(commandKey)) {
-                simpleActionMap.get(commandKey).run();
-            } else if (inputWords.length == 2 && complexActionMap.containsKey(commandKey)) {
-                String commandValue = inputWords[1];
-                complexActionMap.get(commandKey).accept(commandValue);
+            if (commandMap.containsKey(commandKey)) {
+                commandMap.get(commandKey).execute(inputWords);
             } else {
                 System.out.println("Invalid command. Try again");
             }
@@ -128,8 +121,8 @@ public class GameController {
         setActionMaps();
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to ZooTropolis");
-        System.out.println("Type 'commands' to see all the commands, 'exit' to end the game");
+        System.out.println("Welcome to ZooTropolis " + player.getName());
+        System.out.println("Press ENTER to see all the commands, type 'exit' to end the game");
 
         boolean endGame = false;
 
