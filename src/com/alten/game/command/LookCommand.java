@@ -1,12 +1,14 @@
-package com.alten.game.controller;
+package com.alten.game.command;
+
+import com.alten.game.controller.GameController;
 
 import java.util.List;
 
 public class LookCommand implements Command{
     private final GameController gameController;
 
-    public LookCommand(GameController gameController) {
-        this.gameController = gameController;
+    public LookCommand() {
+        this.gameController = GameController.getInstance();
     }
 
     @Override

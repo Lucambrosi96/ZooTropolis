@@ -1,5 +1,6 @@
-package com.alten.game.controller;
+package com.alten.game.command;
 
+import com.alten.game.controller.GameController;
 import com.alten.game.model.Item;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 public class DropCommand implements Command {
     private final GameController gameController;
 
-    public DropCommand(GameController gameController) {
-        this.gameController = gameController;
+    public DropCommand() {
+        this.gameController = GameController.getInstance();
     }
 
     @Override

@@ -3,24 +3,31 @@ package com.alten.game.controller;
 import com.alten.animal.model.Eagle;
 import com.alten.animal.model.Lion;
 import com.alten.animal.model.Tiger;
+import com.alten.game.command.*;
 import com.alten.game.model.Direction;
 import com.alten.game.model.Item;
 import com.alten.game.model.Player;
 import com.alten.game.model.Room;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class GameController {
-    private final Player player;
+
+    private static GameController instance;
+    private Player player;
     private Room currentRoom;
     private Map<String, Command> commandMap;
 
-    public GameController(Player player) {
-        this.player = player;
+    public static GameController getInstance() {
+        if (instance == null) {
+            instance = new GameController();
+        }
+        return instance;
+    }
+
+    private GameController() {
     }
 
     public Player getPlayer() {
@@ -86,28 +93,16 @@ public class GameController {
     }
 
     public void setActionMaps() {
-        commandMap = new HashMap<>();
-
-        LookCommand lookCommand = new LookCommand(this);
-        BagCommand bagCommand = new BagCommand(this);
-        GoCommand goCommand = new GoCommand(this);
-        GetCommand getCommand = new GetCommand(this);
-        DropCommand dropCommand = new DropCommand(this);
-
-        commandMap.put("look", lookCommand);
-        commandMap.put("bag", bagCommand);
-        commandMap.put("go", goCommand);
-        commandMap.put("get", getCommand);
-        commandMap.put("drop", dropCommand);
+        commandMap = CommandFactory.getInstance().createCommandMap();
     }
 
-    public void checkAnswer(String answer) {
-        List<String> inputWords = List.of(answer.trim().split("\\s+", 2));
+    public void manageAnswer(String answer) {
+        List<String> parameters = List.of(answer.trim().split("\\s+", 2));
         if (!answer.trim().isEmpty()) {
-            String commandKey = inputWords.get(0);
+            String commandKey = parameters.getFirst();
 
             if (commandMap.containsKey(commandKey)) {
-                commandMap.get(commandKey).execute(inputWords);
+                runCommand(commandKey, parameters);
             } else {
                 System.out.println("Invalid command. Try again");
             }
@@ -117,11 +112,17 @@ public class GameController {
         }
     }
 
+    public void runCommand(String commandKey, List<String> parameters) {
+        commandMap.get(commandKey).execute(parameters);
+    }
+
     public void runGame() {
         setActionMaps();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to ZooTropolis " + player.getName());
+        System.out.println("Welcome to ZooTropolis, what's your name? ");
+        String playerName = InputController.readString();
+        player = new Player(playerName,10);
+        System.out.println("Hello " + player.getName());
         System.out.println("Press ENTER to see all the commands, type 'exit' to end the game");
 
         boolean endGame = false;
@@ -129,12 +130,12 @@ public class GameController {
         while (!endGame) {
             System.out.println("What do you want to do?");
             System.out.print("> ");
-            String answer = scanner.nextLine();
+            String answer = InputController.readString();
             if (answer.equalsIgnoreCase("exit")) {
                 endGame = true;
                 System.out.println("Thanks for playing");
             } else {
-                checkAnswer(answer.toLowerCase());
+                manageAnswer(answer.toLowerCase());
             }
         }
     }

@@ -1,12 +1,14 @@
-package com.alten.game.controller;
+package com.alten.game.command;
+
+import com.alten.game.controller.GameController;
 
 import java.util.List;
 
 public class GoCommand implements Command {
     private final GameController gameController;
 
-    public GoCommand(GameController gameController) {
-        this.gameController = gameController;
+    public GoCommand() {
+        this.gameController = GameController.getInstance();
     }
 
     @Override

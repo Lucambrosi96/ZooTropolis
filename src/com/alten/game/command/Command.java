@@ -1,4 +1,4 @@
-package com.alten.game.controller;
+package com.alten.game.command;
 
 import java.util.List;
 

@@ -28,7 +28,7 @@ public class Player {
         return bag.getItems();
     }
 
-    public boolean bagIsEmpty(){
+    public boolean isBagEmpty(){
         return bag.isEmpty();
     }
 
