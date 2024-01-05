@@ -88,40 +88,37 @@ public class GameController {
         currentRoom = castle;
     }
 
-    public void commands() {
-        System.out.println("List of commands: \n-look \n-bag \n-go \n-get \n-drop \n-exit");
+    public void showAvailableCommands() {
+        System.out.println("Available commands: \n-look \n-bag \n-go \n-get \n-drop \n-exit");
     }
 
-    public void setActionMaps() {
+    public void setCommandMap() {
         commandMap = CommandFactory.getInstance().createCommandMap();
     }
 
-    public void manageAnswer(String answer) {
+    public void manageResponse(String answer) {
         List<String> parameters = List.of(answer.trim().split("\\s+", 2));
-        if (!answer.trim().isEmpty()) {
-            String commandKey = parameters.getFirst();
-
-            if (commandMap.containsKey(commandKey)) {
-                runCommand(commandKey, parameters);
-            } else {
-                System.out.println("Invalid command. Try again");
-            }
-        } else {
+        if (answer.trim().isEmpty()) {
             System.out.println("Use one of the commands");
-            commands();
+            showAvailableCommands();
+        } else {
+            String commandKey = parameters.getFirst();
+            List<String> commandValues = parameters.subList(1, parameters.size());
+            Command command = commandMap.get(commandKey);
+            if (command == null) {
+                System.out.println("Invalid command. Try again");
+            } else {
+                command.execute(commandValues);
+            }
         }
     }
 
-    public void runCommand(String commandKey, List<String> parameters) {
-        commandMap.get(commandKey).execute(parameters);
-    }
-
     public void runGame() {
-        setActionMaps();
+        setCommandMap();
 
         System.out.println("Welcome to ZooTropolis, what's your name? ");
         String playerName = InputController.readString();
-        player = new Player(playerName,10);
+        player = new Player(playerName, 10);
         System.out.println("Hello " + player.getName());
         System.out.println("Press ENTER to see all the commands, type 'exit' to end the game");
 
@@ -135,7 +132,7 @@ public class GameController {
                 endGame = true;
                 System.out.println("Thanks for playing");
             } else {
-                manageAnswer(answer.toLowerCase());
+                manageResponse(answer.toLowerCase());
             }
         }
     }

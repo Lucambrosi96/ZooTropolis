@@ -14,18 +14,18 @@ public class DropCommand implements Command {
 
     @Override
     public void execute(List<String> parameters) {
-        parameters.stream()
-                .skip(1)
-                .findFirst()
-                .ifPresent(itemName -> {
-                    Item droppedItem = gameController.getPlayer().getItemByName(itemName);
-                    if (droppedItem == null) {
-                        System.out.println("Item not found in your bag");
-                    } else {
-                        gameController.getPlayer().removeItemFromBag(droppedItem);
-                        gameController.getCurrentRoom().addItem(droppedItem);
-                        System.out.println("Dropped item: " + droppedItem.getName());
-                    }
-                });
+        if (parameters.isEmpty()) {
+            System.out.println("Insert an item");
+        } else {
+            String itemName = parameters.getFirst();
+            Item droppedItem = gameController.getPlayer().getItemByName(itemName);
+            if (droppedItem == null) {
+                System.out.println("Item not found in your bag");
+            } else {
+                gameController.getPlayer().removeItemFromBag(droppedItem);
+                gameController.getCurrentRoom().addItem(droppedItem);
+                System.out.println("Dropped item: " + droppedItem.getName());
+            }
+        }
     }
 }
