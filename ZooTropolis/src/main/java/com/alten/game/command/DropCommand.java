@@ -17,7 +17,7 @@ public class DropCommand implements Command {
         if (parameters.isEmpty()) {
             System.out.println("Insert an item");
         } else {
-            String itemName = parameters.getFirst();
+            String itemName = parameters.get(0);
             Item droppedItem = gameController.getPlayer().getItemByName(itemName);
             if (droppedItem == null) {
                 System.out.println("Item not found in your bag");

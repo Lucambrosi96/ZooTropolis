@@ -28,3 +28,13 @@ bin/
 ### Mac OS ###
 .DS_Store
 /.idea
+
+### Gradle ###
+.gradle
+**/build/
+!src/**/build/
+
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradletasknamecache

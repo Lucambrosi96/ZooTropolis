@@ -1,7 +1,5 @@
 package com.alten.animal.model;
 
-import com.alten.animal.model.Animal;
-
 import java.time.LocalDate;
 
 public abstract class WingedAnimal extends Animal {

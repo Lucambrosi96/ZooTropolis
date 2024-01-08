@@ -1,19 +1,18 @@
 package com.alten.game.model;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bag {
+    @Getter
     private final List<Item> items;
     private final int slots;
 
     public Bag() {
         this.items = new ArrayList<>();
         this.slots = 10;
-    }
-
-    public List<Item> getItems() {
-        return items;
     }
 
     public boolean isEmpty(){

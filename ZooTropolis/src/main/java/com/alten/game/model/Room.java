@@ -1,13 +1,17 @@
 package com.alten.game.model;
 
 import com.alten.animal.model.Animal;
+import lombok.Getter;
 
 import java.util.*;
 
 public class Room {
+    @Getter
     private final String name;
     private final List<Item> items;
     private final List<Animal> animals;
+
+    @Getter
     private final Map<Direction, Room> adjacentRooms;
 
     public Room(String name) {
@@ -15,14 +19,6 @@ public class Room {
         this.items = new ArrayList<>();
         this.animals = new ArrayList<>();
         this.adjacentRooms = new EnumMap<>(Direction.class);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Map<Direction, Room> getAdjacentRooms() {
-        return adjacentRooms;
     }
 
     public void addItem(Item item) {

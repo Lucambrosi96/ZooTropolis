@@ -17,7 +17,7 @@ public class GetCommand implements Command {
         if (parameters.isEmpty()) {
             System.out.println("Insert an item");
         } else {
-            String itemName = parameters.getFirst();
+            String itemName = parameters.get(0);
             Item chosenItem = gameController.getCurrentRoom().getItemByName(itemName);
             if (chosenItem == null) {
                 System.out.println("Item not found in the room");

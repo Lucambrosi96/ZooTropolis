@@ -3,11 +3,14 @@ package com.alten.game.controller;
 import com.alten.animal.model.Eagle;
 import com.alten.animal.model.Lion;
 import com.alten.animal.model.Tiger;
-import com.alten.game.command.*;
+import com.alten.game.command.Command;
+import com.alten.game.command.CommandFactory;
 import com.alten.game.model.Direction;
 import com.alten.game.model.Item;
 import com.alten.game.model.Player;
 import com.alten.game.model.Room;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +19,12 @@ import java.util.Map;
 public class GameController {
 
     private static GameController instance;
+
+    @Getter
     private Player player;
+
+    @Getter
+    @Setter
     private Room currentRoom;
     private Map<String, Command> commandMap;
 
@@ -28,18 +36,6 @@ public class GameController {
     }
 
     private GameController() {
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
-
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
     }
 
     public void populateGame() {
@@ -102,7 +98,7 @@ public class GameController {
             System.out.println("Use one of the commands");
             showAvailableCommands();
         } else {
-            String commandKey = parameters.getFirst();
+            String commandKey = parameters.get(0);
             List<String> commandValues = parameters.subList(1, parameters.size());
             Command command = commandMap.get(commandKey);
             if (command == null) {

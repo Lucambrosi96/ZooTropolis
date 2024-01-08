@@ -1,7 +1,10 @@
 package com.alten.game.model;
 
+import lombok.Getter;
+
 import java.util.stream.Stream;
 
+@Getter
 public enum Direction {
 
     NORTH("north"),
@@ -13,10 +16,6 @@ public enum Direction {
 
     Direction(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public static Direction getDirectionFromName(String directionName){

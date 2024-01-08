@@ -32,7 +32,7 @@ public class ZooController {
         addAnimal(new Eagle("Blue", "Fish", 4, LocalDate.of(2019, 10, 10), 0.60f, 2f, 2.15f));
     }
 
-
+    @SuppressWarnings("unchecked")
     private <T extends Animal> List<T> findAllAnimalsBySpecies(Class<T> animalType) {
         return (List<T>) animalsMap.getOrDefault(animalType, Collections.emptyList());
     }

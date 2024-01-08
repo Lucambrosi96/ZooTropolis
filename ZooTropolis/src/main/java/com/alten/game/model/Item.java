@@ -1,5 +1,8 @@
 package com.alten.game.model;
 
+import lombok.Getter;
+
+@Getter
 public class Item {
     private String name;
     private String description;
@@ -9,18 +12,6 @@ public class Item {
         this.name = name;
         this.description = description;
         this.slotsOccupied = slotsOccupied;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getSlotsOccupied() {
-        return slotsOccupied;
     }
 
     @Override
