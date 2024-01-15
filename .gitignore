@@ -39,3 +39,5 @@ gradle-app.setting
 !gradle-wrapper.properties
 .gradletasknamecache
 ZooTropolis.iml
+
+HELP.md

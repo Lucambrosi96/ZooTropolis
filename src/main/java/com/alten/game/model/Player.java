@@ -1,19 +1,27 @@
 package com.alten.game.model;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class Player {
+    @Setter
     @Getter
     private String name;
+    @Setter
     private int lifePoints;
-    private final Bag bag;
+    private Bag bag;
 
-    public Player(String name, int lifePoints) {
+    @Autowired
+    public Player(@Value("${player.defaultName}") String name, @Value("${player.defaultLifePoints}") int lifePoints, Bag bag) {
         this.name = name;
         this.lifePoints = lifePoints;
-        this.bag = new Bag();
+        this.bag = bag;
     }
 
     public boolean addItemToBag(Item item) {

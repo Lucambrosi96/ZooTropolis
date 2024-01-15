@@ -1,27 +1,29 @@
 package com.alten.game.command;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class CommandFactory {
 
-    private static CommandFactory instance;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-    public static CommandFactory getInstance() {
-        if (instance == null) {
-            instance = new CommandFactory();
-        }
-        return instance;
-    }
 
+    @Bean
     public Map<String, Command> createCommandMap() {
         Map<String, Command> commandMap = new HashMap<>();
 
-        LookCommand lookCommand = new LookCommand();
-        BagCommand bagCommand = new BagCommand();
-        GoCommand goCommand = new GoCommand();
-        GetCommand getCommand = new GetCommand();
-        DropCommand dropCommand = new DropCommand();
+        LookCommand lookCommand = applicationContext.getBean(LookCommand.class);
+        BagCommand bagCommand = applicationContext.getBean(BagCommand.class);
+        GoCommand goCommand = applicationContext.getBean(GoCommand.class);
+        GetCommand getCommand = applicationContext.getBean(GetCommand.class);
+        DropCommand dropCommand = applicationContext.getBean(DropCommand.class);
 
         commandMap.put("look", lookCommand);
         commandMap.put("bag", bagCommand);

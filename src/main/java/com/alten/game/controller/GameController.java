@@ -11,31 +11,78 @@ import com.alten.game.model.Player;
 import com.alten.game.model.Room;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class GameController {
 
-    private static GameController instance;
-
     @Getter
-    private Player player;
-
+    private final Player player;
     @Getter
     @Setter
     private Room currentRoom;
+    private final CommandFactory commandFactory;
     private Map<String, Command> commandMap;
 
-    public static GameController getInstance() {
-        if (instance == null) {
-            instance = new GameController();
-        }
-        return instance;
+    @Autowired
+    public GameController (Player player, CommandFactory commandFactory){
+        this.player = player;
+        this.commandFactory = commandFactory;
     }
 
-    private GameController() {
+    public void setCommandMap() {
+        commandMap = commandFactory.createCommandMap();
+    }
+
+    public void showAvailableCommands() {
+        System.out.println("Available commands: \n-look \n-bag \n-go \n-get \n-drop \n-exit");
+    }
+
+    public void manageResponse(String answer) {
+        List<String> parameters = List.of(answer.trim().split("\\s+", 2));
+        if (answer.trim().isEmpty()) {
+            System.out.println("Use one of the commands");
+            showAvailableCommands();
+        } else {
+            String commandKey = parameters.get(0);
+            List<String> commandValues = parameters.subList(1, parameters.size());
+            Command command = commandMap.get(commandKey);
+            if (command == null) {
+                System.out.println("Invalid command. Try again");
+            } else {
+                command.execute(commandValues);
+            }
+        }
+    }
+
+    public void runGame() {
+
+        setCommandMap();
+        System.out.println("Welcome to ZooTropolis, what's your name? ");
+        String playerName = InputController.readString();
+        player.setName(playerName);
+        player.setLifePoints(10);
+        System.out.println("Hello " + player.getName());
+        System.out.println("Press ENTER to see all the commands, type 'exit' to end the game");
+
+        boolean endGame = false;
+
+        while (!endGame) {
+            System.out.println("What do you want to do?");
+            System.out.print("> ");
+            String answer = InputController.readString();
+            if (answer.equalsIgnoreCase("exit")) {
+                endGame = true;
+                System.out.println("Thanks for playing");
+            } else {
+                manageResponse(answer.toLowerCase());
+            }
+        }
     }
 
     public void populateGame() {
@@ -82,54 +129,5 @@ public class GameController {
         cave.addAnimal(pinco);
 
         currentRoom = castle;
-    }
-
-    public void showAvailableCommands() {
-        System.out.println("Available commands: \n-look \n-bag \n-go \n-get \n-drop \n-exit");
-    }
-
-    public void setCommandMap() {
-        commandMap = CommandFactory.getInstance().createCommandMap();
-    }
-
-    public void manageResponse(String answer) {
-        List<String> parameters = List.of(answer.trim().split("\\s+", 2));
-        if (answer.trim().isEmpty()) {
-            System.out.println("Use one of the commands");
-            showAvailableCommands();
-        } else {
-            String commandKey = parameters.get(0);
-            List<String> commandValues = parameters.subList(1, parameters.size());
-            Command command = commandMap.get(commandKey);
-            if (command == null) {
-                System.out.println("Invalid command. Try again");
-            } else {
-                command.execute(commandValues);
-            }
-        }
-    }
-
-    public void runGame() {
-        setCommandMap();
-
-        System.out.println("Welcome to ZooTropolis, what's your name? ");
-        String playerName = InputController.readString();
-        player = new Player(playerName, 10);
-        System.out.println("Hello " + player.getName());
-        System.out.println("Press ENTER to see all the commands, type 'exit' to end the game");
-
-        boolean endGame = false;
-
-        while (!endGame) {
-            System.out.println("What do you want to do?");
-            System.out.print("> ");
-            String answer = InputController.readString();
-            if (answer.equalsIgnoreCase("exit")) {
-                endGame = true;
-                System.out.println("Thanks for playing");
-            } else {
-                manageResponse(answer.toLowerCase());
-            }
-        }
     }
 }

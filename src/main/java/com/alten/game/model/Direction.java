@@ -18,7 +18,7 @@ public enum Direction {
         this.name = name;
     }
 
-    public static Direction getDirectionFromName(String directionName){
+    public static Direction getDirectionFromName(String directionName) {
         return Stream.of(Direction.values())
                 .filter(direction -> direction.getName().equalsIgnoreCase(directionName))
                 .findFirst()

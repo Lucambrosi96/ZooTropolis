@@ -2,16 +2,20 @@ package com.alten.game.command;
 
 import com.alten.game.controller.GameController;
 import com.alten.game.model.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class DropCommand implements Command {
+
     private final GameController gameController;
 
-    public DropCommand() {
-        this.gameController = GameController.getInstance();
+    @Autowired
+    public DropCommand(GameController gameController) {
+        this.gameController = gameController;
     }
-
     @Override
     public void execute(List<String> parameters) {
         if (parameters.isEmpty()) {
