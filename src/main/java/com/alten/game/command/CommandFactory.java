@@ -1,36 +1,27 @@
 package com.alten.game.command;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class CommandFactory {
+    private final ListableBeanFactory beanFactory;
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
+    public CommandFactory(ListableBeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
 
     @Bean
     public Map<String, Command> createCommandMap() {
-        Map<String, Command> commandMap = new HashMap<>();
-
-        LookCommand lookCommand = applicationContext.getBean(LookCommand.class);
-        BagCommand bagCommand = applicationContext.getBean(BagCommand.class);
-        GoCommand goCommand = applicationContext.getBean(GoCommand.class);
-        GetCommand getCommand = applicationContext.getBean(GetCommand.class);
-        DropCommand dropCommand = applicationContext.getBean(DropCommand.class);
-
-        commandMap.put("look", lookCommand);
-        commandMap.put("bag", bagCommand);
-        commandMap.put("go", goCommand);
-        commandMap.put("get", getCommand);
-        commandMap.put("drop", dropCommand);
-
-        return commandMap;
+        return Arrays.stream(beanFactory.getBeanNamesForType(Command.class))
+                .collect(Collectors.toMap(Function.identity(),
+                        name -> beanFactory.getBean(name, Command.class)));
     }
+
 }

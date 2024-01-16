@@ -20,7 +20,8 @@ import java.util.Map;
 
 @Component
 public class GameController {
-
+    @Setter
+    private boolean endGame = false;
     @Getter
     private final Player player;
     @Getter
@@ -30,7 +31,7 @@ public class GameController {
     private Map<String, Command> commandMap;
 
     @Autowired
-    public GameController (Player player, CommandFactory commandFactory){
+    public GameController(Player player, CommandFactory commandFactory) {
         this.player = player;
         this.commandFactory = commandFactory;
     }
@@ -50,6 +51,7 @@ public class GameController {
             showAvailableCommands();
         } else {
             String commandKey = parameters.get(0);
+            commandKey = commandKey + "Command";
             List<String> commandValues = parameters.subList(1, parameters.size());
             Command command = commandMap.get(commandKey);
             if (command == null) {
@@ -70,18 +72,12 @@ public class GameController {
         System.out.println("Hello " + player.getName());
         System.out.println("Press ENTER to see all the commands, type 'exit' to end the game");
 
-        boolean endGame = false;
 
         while (!endGame) {
             System.out.println("What do you want to do?");
             System.out.print("> ");
             String answer = InputController.readString();
-            if (answer.equalsIgnoreCase("exit")) {
-                endGame = true;
-                System.out.println("Thanks for playing");
-            } else {
-                manageResponse(answer.toLowerCase());
-            }
+            manageResponse(answer.toLowerCase());
         }
     }
 
