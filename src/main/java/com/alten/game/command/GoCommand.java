@@ -2,20 +2,17 @@ package com.alten.game.command;
 
 import com.alten.game.controller.GameController;
 import com.alten.game.model.Room;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Component
 public class GoCommand implements Command{
 
     private final GameController gameController;
-
-    @Autowired
-    public GoCommand(GameController gameController) {
-        this.gameController = gameController;
-    }
 
     @Override
     public void execute(List<String> parameters) {
