@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
-public class ResposeController {
+public class ResponseController {
     private final CommandFactory commandFactory;
     private Map<String, Command> commandMap;
 

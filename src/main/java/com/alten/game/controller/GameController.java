@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Component
 public class GameController {
 
-    private final ResposeController resposeController;
+    private final ResponseController responseController;
     @Setter
     private boolean endGame = false;
     @Getter
@@ -29,7 +29,7 @@ public class GameController {
 
     public void runGame() {
 
-        resposeController.setCommandMap();
+        responseController.setCommandMap();
         System.out.print("Welcome to ZooTropolis, what's your name?\n> ");
         String playerName = InputController.readString();
         player.setName(playerName);
@@ -41,7 +41,7 @@ public class GameController {
             System.out.println("What do you want to do?");
             System.out.print("> ");
             String answer = InputController.readString();
-            resposeController.manageResponse(answer.toLowerCase());
+            responseController.manageResponse(answer.toLowerCase());
         }
     }
 
