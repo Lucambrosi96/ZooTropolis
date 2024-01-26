@@ -52,12 +52,8 @@ public class GameController {
         Room village = new Room("Village");
 
         castle.addAdjacentRooms(Direction.NORTH, forest);
-        castle.addAdjacentRooms(Direction.WEST, village);
-        forest.addAdjacentRooms(Direction.SOUTH, castle);
         forest.addAdjacentRooms(Direction.WEST, cave);
         village.addAdjacentRooms(Direction.EAST, castle);
-        village.addAdjacentRooms(Direction.NORTH, cave);
-        cave.addAdjacentRooms(Direction.EAST, forest);
         cave.addAdjacentRooms(Direction.SOUTH, village);
 
         Item longSword = new Item("Long Sword", "The berserk sword", 7);

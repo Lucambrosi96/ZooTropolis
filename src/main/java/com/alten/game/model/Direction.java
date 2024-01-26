@@ -22,4 +22,13 @@ public enum Direction {
                 .findFirst()
                 .orElse(null);
     }
+
+    public static Direction getOppositeDirection(Direction direction){
+        return switch (direction){
+            case NORTH -> SOUTH;
+            case EAST -> WEST;
+            case WEST -> EAST;
+            case SOUTH -> NORTH;
+        };
+    }
 }

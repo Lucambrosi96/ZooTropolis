@@ -35,6 +35,7 @@ public class Room {
 
     public void addAdjacentRooms(Direction direction, Room room){
         adjacentRooms.put(direction, room);
+        room.adjacentRooms.put(Direction.getOppositeDirection(direction), this);
     }
 
     public void getInformation() {
