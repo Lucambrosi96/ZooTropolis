@@ -12,13 +12,13 @@ public class Room {
     private final List<Animal> animals;
 
     @Getter
-    private final Map<Direction, Room> adjacentRooms;
+    private final Map<Direction, Door> adjacentDoors;
 
     public Room(String name) {
         this.name = name;
         this.items = new ArrayList<>();
         this.animals = new ArrayList<>();
-        this.adjacentRooms = new EnumMap<>(Direction.class);
+        this.adjacentDoors = new EnumMap<>(Direction.class);
     }
 
     public void addItem(Item item) {
@@ -33,9 +33,11 @@ public class Room {
         animals.add(animal);
     }
 
-    public void addAdjacentRooms(Direction direction, Room room){
-        adjacentRooms.put(direction, room);
-        room.adjacentRooms.put(Direction.getOppositeDirection(direction), this);
+    public void addAdjacentDoors(Direction direction, Room nextRoom, Door door) {
+        adjacentDoors.put(direction, door);
+        door.setStartingRoom(this);
+        door.setArrivalRoom(nextRoom);
+        nextRoom.adjacentDoors.put(Direction.getOppositeDirection(direction), door);
     }
 
     public void getInformation() {
@@ -53,12 +55,7 @@ public class Room {
 
     public boolean checkDirection(String directionName) {
         Direction direction = Direction.getDirectionFromName(directionName);
-        return getAdjacentRooms().containsKey(direction);
-    }
-
-    public Room move(String directionName) {
-        Direction direction = Direction.getDirectionFromName(directionName);
-        return getAdjacentRooms().get(direction);
+        return getAdjacentDoors().containsKey(direction);
     }
 
     public Item getItemByName(String itemName) {
@@ -66,5 +63,17 @@ public class Room {
                 .filter(item -> item.getName().equalsIgnoreCase(itemName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Door getDoor(Direction direction) {
+        return adjacentDoors.get(direction);
+    }
+
+    public Room getDestination(Direction direction) {
+        return getDoor(direction).getDestinationRoom(this);
+    }
+
+    public void switchRoom(Direction direction) {
+        adjacentDoors.get(direction).switchRoom();
     }
 }

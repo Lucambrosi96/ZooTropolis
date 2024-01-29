@@ -3,10 +3,7 @@ package com.alten.game.controller;
 import com.alten.animal.model.Eagle;
 import com.alten.animal.model.Lion;
 import com.alten.animal.model.Tiger;
-import com.alten.game.model.Direction;
-import com.alten.game.model.Item;
-import com.alten.game.model.Player;
-import com.alten.game.model.Room;
+import com.alten.game.model.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -51,10 +48,15 @@ public class GameController {
         Room cave = new Room("Cave");
         Room village = new Room("Village");
 
-        castle.addAdjacentRooms(Direction.NORTH, forest);
-        forest.addAdjacentRooms(Direction.WEST, cave);
-        village.addAdjacentRooms(Direction.EAST, castle);
-        cave.addAdjacentRooms(Direction.SOUTH, village);
+        Door door1 = new Door(true);
+        Door door2 = new Door(true);
+        Door door3 = new Door(false, "Cave Key");
+        Door door4 = new Door(false,"Village Key");
+
+        castle.addAdjacentDoors(Direction.NORTH, forest, door1);
+        forest.addAdjacentDoors(Direction.WEST, cave, door2);
+        cave.addAdjacentDoors(Direction.SOUTH, village, door3);
+        village.addAdjacentDoors(Direction.EAST, castle, door4);
 
         Item longSword = new Item("Long Sword", "The berserk sword", 7);
         Item sword = new Item("Sword", "The berserk sword", 5);
@@ -63,6 +65,8 @@ public class GameController {
         Item diamond = new Item("Diamond", "A shiny diamond", 1);
         Item gold = new Item("Gold", "A small piece of gold", 3);
         Item ring = new Item("Ring", "The elden ring", 2);
+        Item caveKey = new Item("Cave Key", "The elden key", 2);
+        Item villageKey = new Item("Village Key", "The elden key", 2);
 
         castle.addItem(longSword);
         castle.addItem(sword);
@@ -71,6 +75,8 @@ public class GameController {
         village.addItem(ring);
         cave.addItem(gold);
         cave.addItem(diamond);
+        castle.addItem(villageKey);
+        forest.addItem(caveKey);
 
         Lion simba = new Lion("Simba", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f);
         Lion mufasa = new Lion("Mufasa", "Zebra", 2, LocalDate.of(2023, 10, 9), 1.50f, 100f, 0.50f);

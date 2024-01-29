@@ -17,7 +17,7 @@ public class Bag {
         this.slots = 10;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return items.isEmpty();
     }
 
@@ -28,7 +28,7 @@ public class Bag {
     }
 
     public boolean addItem(Item item) {
-        if(checkItemEnters(item)){
+        if (checkItemEnters(item)) {
             items.add(item);
             return true;
         }
@@ -53,5 +53,10 @@ public class Bag {
                 .filter(item -> item.getName().equalsIgnoreCase(itemName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public boolean isPresent(String itemName) {
+        return items.stream()
+                .anyMatch(item -> item.getName().equalsIgnoreCase(itemName));
     }
 }

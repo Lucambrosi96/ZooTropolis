@@ -36,7 +36,7 @@ public class Player {
         return bag.getItems();
     }
 
-    public boolean isBagEmpty(){
+    public boolean isBagEmpty() {
         return bag.isEmpty();
     }
 
@@ -46,5 +46,9 @@ public class Player {
 
     public Item getItemByName(String itemName) {
         return bag.getItemByName(itemName);
+    }
+
+    public boolean isPresentInBag(String itemName) {
+        return bag.isPresent(itemName);
     }
 }
