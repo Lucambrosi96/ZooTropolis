@@ -42,6 +42,8 @@ public class Room {
 
     public void getInformation() {
         System.out.println("You are in " + getName());
+        System.out.println("Available directions:");
+        this.getAvailableDoors();
         System.out.print("Items: ");
         for (Item item : items) {
             System.out.print(item + " ");
@@ -75,5 +77,12 @@ public class Room {
 
     public void switchRoom(Direction direction) {
         adjacentDoors.get(direction).switchRoom();
+    }
+
+    public void getAvailableDoors() {
+        adjacentDoors.forEach((direction, door) -> {
+            String doorStatus = door.isOpen() ? "open" : "closed";
+            System.out.println(direction + " door: " + doorStatus);
+        });
     }
 }
