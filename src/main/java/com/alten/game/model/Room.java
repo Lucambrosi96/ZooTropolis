@@ -75,10 +75,6 @@ public class Room {
         return getDoor(direction).getDestinationRoom(this);
     }
 
-    public void switchRoom(Direction direction) {
-        adjacentDoors.get(direction).switchRoom();
-    }
-
     public void getAvailableDoors() {
         adjacentDoors.forEach((direction, door) -> {
             String doorStatus = door.isOpen() ? "open" : "closed";

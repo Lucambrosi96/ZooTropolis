@@ -69,7 +69,6 @@ public class GoCommand implements Command {
     private void changeRoom(Direction direction) {
         Room currentRoom = gameController.getCurrentRoom();
         Room nextRoom = currentRoom.getDestination(direction);
-        currentRoom.switchRoom(direction);
         gameController.setCurrentRoom(nextRoom);
         gameController.getCurrentRoom().getInformation();
     }

@@ -31,10 +31,4 @@ public class Door {
     public Room getDestinationRoom(Room currentRoom) {
         return (currentRoom == startingRoom) ? arrivalRoom : startingRoom;
     }
-
-    public void switchRoom() {
-        Room temporaryRoom = startingRoom;
-        startingRoom = arrivalRoom;
-        arrivalRoom = temporaryRoom;
-    }
 }
